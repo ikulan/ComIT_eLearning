@@ -26,8 +26,7 @@ namespace ComIT_eLearning.Models
     public int Id { get; set; }
 
     [Required]
-    public CourseStatus Status { get; set; }
-
+    public CourseStatus Status { get; set; } = CourseStatus.Pending;
 
     [Required]
     [MaxLength(100)]
@@ -50,10 +49,10 @@ namespace ComIT_eLearning.Models
     public string Description { get; set; }
 
     [DataType(DataType.Date)]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Today;
 
     [DataType(DataType.Date)]
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate { get; set; } = DateTime.Today;
 
     // Store class times as a JSON string in the database
     private string ClassTimesJson { get; set; }
@@ -72,7 +71,6 @@ namespace ComIT_eLearning.Models
     }
 
     [Url]
-    public string ImageUrl { get; set; }
-
+    public string? ImageUrl { get; set; } = String.Empty;
   }
 }

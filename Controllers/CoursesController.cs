@@ -56,7 +56,7 @@ namespace ComIT_eLearning.Controllers
             ViewBag.SemesterList = new SelectList(semesterList, "Value", "Text");
             ViewBag.StatusList = new SelectList(statusList, "Value", "Text", CourseStatus.Pending);
 
-            return View();
+            return View(new Course());
         }
 
         // POST: Courses/Create
@@ -88,6 +88,15 @@ namespace ComIT_eLearning.Controllers
             {
                 return NotFound();
             }
+
+            var semesterList = Enum.GetValues(typeof(SemesterType))
+                     .Cast<SemesterType>()
+                     .Select(s => new { Value = s, Text = s.ToString() });
+            var statusList = Enum.GetValues(typeof(CourseStatus))
+                     .Cast<CourseStatus>()
+                     .Select(s => new { Value = s, Text = s.ToString() });
+            ViewBag.SemesterList = new SelectList(semesterList, "Value", "Text");
+            ViewBag.StatusList = new SelectList(statusList, "Value", "Text", CourseStatus.Pending);
             return View(course);
         }
 
