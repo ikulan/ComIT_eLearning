@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ComIT_eLearning.Data;
 using ComIT_eLearning.Models;
+using ComIT_eLearning.Models.Enums;
 
 namespace ComIT_eLearning.Controllers
 {
@@ -46,6 +47,15 @@ namespace ComIT_eLearning.Controllers
         // GET: Courses/Create
         public IActionResult Create()
         {
+            var semesterList = Enum.GetValues(typeof(SemesterType))
+                                 .Cast<SemesterType>()
+                                 .Select(s => new { Value = s, Text = s.ToString() });
+            var statusList = Enum.GetValues(typeof(CourseStatus))
+                     .Cast<CourseStatus>()
+                     .Select(s => new { Value = s, Text = s.ToString() });
+            ViewBag.SemesterList = new SelectList(semesterList, "Value", "Text");
+            ViewBag.StatusList = new SelectList(statusList, "Value", "Text", CourseStatus.Pending);
+
             return View();
         }
 
