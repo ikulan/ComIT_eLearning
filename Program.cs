@@ -18,6 +18,14 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    //options.AccessDeniedPath = "/Account/AccessDenied"; // Redirect here if logged in but unauthorized
+    options.ReturnUrlParameter = "returnUrl"; // this is default
+});
+
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
