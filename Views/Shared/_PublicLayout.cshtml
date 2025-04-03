@@ -27,10 +27,14 @@
 </head>
 
 <body>
-  <div class="wrapper">
-    <main role="main" class="h-100 d-flex justify-content-center align-items-center">
+  <div class="wrapper d-flex flex-column">
+    @await Html.PartialAsync("_PublicHeader")
+
+    <!-- Main -->
+    <main role="main" class="flex-grow-1 d-flex justify-content-center align-items-center">
       @RenderBody()
     </main>
+  </div>
   </div>
 
   <!--   Core JS Files   -->
