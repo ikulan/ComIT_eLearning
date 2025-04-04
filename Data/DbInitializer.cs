@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using ComIT_eLearning.Models;
 
 public static class DbInitializer
 {

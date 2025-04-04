@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ComIT_eLearning.Data;
 using Microsoft.AspNetCore.Identity;
+using ComIT_eLearning.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
