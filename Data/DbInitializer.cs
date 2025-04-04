@@ -25,6 +25,8 @@ public static class DbInitializer
     {
       var user = new ApplicationUser
       {
+        FirstName = "Patty",
+        LastName = "Liu",
         UserName = adminEmail,
         Email = adminEmail,
         EmailConfirmed = true
