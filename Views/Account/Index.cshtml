@@ -1,0 +1,34 @@
+@model ComIT_eLearning.Models.ApplicationUser
+
+@{
+  ViewData["Title"] = "My Account";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="col-8">
+  <div class="card">
+    <div class="card-body">
+      <p><strong>Email:</strong> @Model.Email</p>
+      <p><strong>First Name:</strong> @Model.FirstName</p>
+      <p><strong>Last Name:</strong> @Model.LastName</p>
+      <p><strong>Preferred Name:</strong> @Model.PreferredName</p>
+      <p><strong>Roles:</strong>
+        @if (User.IsInRole("Admin"))
+        {
+          <span class="badge badge-warning">admin</span>
+          <span class="badge badge-info">teacher</span>
+        }
+        @if (User.IsInRole("Teacher"))
+        {
+          <span class="badge badge-info">teacher</span>
+        }
+        @if (User.IsInRole("Student"))
+        {
+          <span class="btn btn-success">student</span>
+        }
+      </p>
+      <a class="btn btn-secondary" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+
+    </div>
+  </div>
+</div>
