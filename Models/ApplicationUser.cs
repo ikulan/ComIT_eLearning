@@ -25,6 +25,11 @@ public class ApplicationUser : IdentityUser
     return string.IsNullOrEmpty(PreferredName) ? FirstName : PreferredName;
   }
 
+  public string GetFullName()
+  {
+    return FirstName + " " + LastName;
+  }
+
   public string GetAvatar()
   {
     return FirstName[0].ToString().ToUpper() + LastName[0].ToString().ToUpper();
