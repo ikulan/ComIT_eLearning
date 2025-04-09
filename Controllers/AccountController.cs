@@ -33,7 +33,45 @@ namespace ComIT_eLearning.Controllers
       {
         return NotFound("User not found.");
       }
-      return View(user);
+
+      var viewModel = new AccountViewModel();
+      viewModel.User = user;
+      return View(viewModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(AccountViewModel model)
+    {
+      // skip validation on User field
+      ModelState.Remove(nameof(model.User));
+
+      if (!ModelState.IsValid)
+      {
+        return RedirectToAction("Index");
+      }
+
+      var user = await _userManager.GetUserAsync(User);
+      if (user == null)
+      {
+        return RedirectToAction("Login", "Account");
+      }
+
+      var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+      if (result.Succeeded)
+      {
+        await _signInManager.RefreshSignInAsync(user);
+        TempData["SuccessMessage"] = "Password changed successfully.";
+        return RedirectToAction("Index");
+      }
+
+      foreach (var error in result.Errors)
+      {
+        ModelState.AddModelError(string.Empty, error.Description);
+      }
+
+      model.User = user;
+      return View("Index", model);
     }
 
   }

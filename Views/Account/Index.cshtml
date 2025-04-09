@@ -1,17 +1,22 @@
-@model ComIT_eLearning.Models.ApplicationUser
+@model AccountViewModel
+@using System.Text.Json
 
 @{
   ViewData["Title"] = "My Account";
 }
 
 <h2>@ViewData["Title"]</h2>
-<div class="col-8">
+<div class="col">
+  <!-- #region AccountInfo -->
   <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Info</h3>
+    </div>
     <div class="card-body">
-      <p><strong>Email:</strong> @Model.Email</p>
-      <p><strong>First Name:</strong> @Model.FirstName</p>
-      <p><strong>Last Name:</strong> @Model.LastName</p>
-      <p><strong>Preferred Name:</strong> @Model.PreferredName</p>
+      <p><strong>Email:</strong> @Model.User.Email</p>
+      <p><strong>First Name:</strong> @Model.User.FirstName</p>
+      <p><strong>Last Name:</strong> @Model.User.LastName</p>
+      <p><strong>Preferred Name:</strong> @Model.User.PreferredName</p>
       <p><strong>Roles:</strong>
         @if (User.IsInRole("Admin"))
         {
@@ -27,8 +32,52 @@
           <span class="btn btn-success">student</span>
         }
       </p>
-      <a class="btn btn-secondary" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
-
     </div>
   </div>
+  <!-- #endregion -->
+
+  <!-- #region Change Password -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Password</h3>
+    </div>
+    <div class="card-body">
+      <form asp-action="ChangePassword" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row px-2">
+          <div class="form-group col">
+            <label asp-for="OldPassword"></label>
+            <input asp-for="OldPassword" class="form-control" />
+            <span asp-validation-for="OldPassword" class="text-danger"></span>
+          </div>
+          <div class="form-group col">
+            <label asp-for="NewPassword"></label>
+            <input asp-for="NewPassword" class="form-control" />
+            <span asp-validation-for="NewPassword" class="text-danger"></span>
+          </div>
+          <div class="form-group col">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="row mt-2 px-1">
+          <div class="col-4">
+            <button type="submit" class="btn btn-secondary btn-border" asp-controller="Account"
+              asp-action="ChangePassword">
+              Change Password
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- #endregion -->
+
 </div>
+
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}
