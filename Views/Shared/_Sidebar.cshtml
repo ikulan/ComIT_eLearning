@@ -26,7 +26,7 @@
       <ul class="nav nav-secondary">
 
         <!-- Dashboard  -->
-        <li class="nav-item active">
+        <li class="nav-item">
           <a href="~/Dashboard.html">
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
@@ -43,13 +43,19 @@
           <div class="collapse" id="sidebarCourses">
             <ul class="nav nav-collapse">
               <li>
+                <a href="~/Courses">
+                  All Courses
+                </a>
+              </li>
+              <li>
                 <a href="~/course/01.html">
-                  <span class="sub-item">Courses 1</span>
+                  <i class="fas fa-star"></i>
+                  Courses 1
                 </a>
               </li>
               <li>
                 <a href="~/course/02.html">
-                  <span class="sub-item"> Courses 2</span>
+                  <i class="fas fa-star"></i> Courses 2
                 </a>
               </li>
             </ul>
@@ -73,35 +79,60 @@
         </li>
 
         <!-- Management (only for admin roles)  -->
-        <li class="nav-item ">
-          <a href="~/Management.html">
-            <i class="fas fa-database"></i>
-            <p>Management</p>
-          </a>
-        </li>
+        @if (User.IsInRole("Admin"))
+        {
 
-        <!-- Subsectio: Settings and Help  -->
-        <li class="nav-section">
-          <span class="sidebar-mini-icon">
-            <i class="fa fa-ellipsis-h"></i>
-          </span>
-          <h4 class="text-section">Settings</h4>
-        </li>
-        <li class="nav-item ">
-          <a href="~/Settings.html">
-            <i class="fas fa-cog"></i>
-            <p>Settings</p>
-          </a>
-        </li>
-        <li class="nav-item ">
-          <a href="~/Help.html">
-            <i class="fas fa-question"></i>
-            <p>Help</p>
-          </a>
-        </li>
-      </ul>
-    </div>
+          <li class="nav-item ">
+            <a data-bs-toggle="collapse" href="#sidebarManagement">
+              <i class="fas fa-database"></i>
+              <p>Management</p>
+              <span class="caret"></span>
+            </a>
+            <div class="collapse" id="sidebarManagement">
+              <ul class="nav nav-collapse">
+                <li>
+                  <a href="~/Admin/Courses">
+                  <span class="sub-item">Courses</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="~/Admin/Teachers">
+                    <span class="sub-item">Teachers</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="~/Admin/Students">
+                    <span class="sub-item">Students</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+      
+    }
 
+    <!-- Subsectio: Settings and Help  -->
+    <li class="nav-section">
+      <span class="sidebar-mini-icon">
+        <i class="fa fa-ellipsis-h"></i>
+      </span>
+      <h4 class="text-section">Settings</h4>
+    </li>
+    <li class="nav-item ">
+      <a href="~/Account">
+        <i class="fas fa-cog"></i>
+        <p>Settings</p>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a href="~/Help.html">
+        <i class="fas fa-question"></i>
+        <p>Help</p>
+      </a>
+    </li>
+    </ul>
   </div>
+
+</div>
 
 </div>

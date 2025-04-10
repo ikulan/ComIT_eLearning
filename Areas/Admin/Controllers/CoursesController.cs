@@ -10,9 +10,10 @@ using ComIT_eLearning.Data;
 using ComIT_eLearning.Models;
 using ComIT_eLearning.Models.Enums;
 
-namespace ComIT_eLearning.Controllers
+namespace ComIT_eLearning.Areas.Admin.Controllers
 {
-    [Authorize]
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CoursesController : Controller
     {
         private readonly ApplicationDbContext _context;
