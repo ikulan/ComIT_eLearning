@@ -94,10 +94,10 @@ namespace ComIT_eLearning.Areas.Identity.Pages.Account
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Courses");
+                return RedirectToAction("Index", "Dashboard");
             }
 
-            returnUrl ??= Url.Action("Index", "Courses");
+            returnUrl ??= Url.Action("Index", "Dashboard");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -111,7 +111,7 @@ namespace ComIT_eLearning.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Action("Index", "Courses");
+            returnUrl ??= Url.Action("Index", "Dashboard");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
