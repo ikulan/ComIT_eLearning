@@ -11,7 +11,7 @@ namespace ComIT_eLearning.Models
     [Required]
     public required string LastName { get; set; }
 
-    public string PreferredName { get; set; } = String.Empty;
+    public string? PreferredName { get; set; } = String.Empty;
 
     // [Required]
     // public required string StudentNumber { get; set; }

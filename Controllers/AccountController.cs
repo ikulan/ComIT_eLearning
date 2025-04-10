@@ -74,5 +74,49 @@ namespace ComIT_eLearning.Controllers
       return View("Index", model);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> UpdatePreferredName(AccountViewModel model)
+    {
+      var user = await _userManager.GetUserAsync(User);
+      if (user == null)
+      {
+        return RedirectToAction("Login", "Account");
+      }
+
+      if (string.IsNullOrWhiteSpace(model.User.PreferredName) && string.IsNullOrWhiteSpace(user.PreferredName))
+      {
+        return RedirectToAction("Index");
+      }
+
+      var rawName = model.User.PreferredName?.Trim();
+      if (!string.IsNullOrWhiteSpace(rawName))
+      {
+        user.PreferredName = ToTitleCase(rawName);
+      }
+      else
+      {
+        user.PreferredName = String.Empty;
+      }
+
+
+      var result = await _userManager.UpdateAsync(user);
+      if (result.Succeeded)
+      {
+        TempData["SuccessMessage"] = "Preferred name updated successfully.";
+      }
+      else
+      {
+        TempData["ErrorMessages"] = string.Join(" | ", result.Errors.Select(e => e.Description));
+      }
+
+      return RedirectToAction("Index");
+    }
+
+    private string ToTitleCase(string input)
+    {
+      return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+    }
+
   }
 }
