@@ -1,0 +1,118 @@
+@model AccountViewModel
+@using System.Text.Json
+
+@{
+  ViewData["Title"] = "My Account";
+}
+
+<div class="container">
+  <h2>@ViewData["Title"]</h2>
+  <div class="col">
+
+    <!-- #region AccountInfo -->
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Info</h3>
+      </div>
+      <div class="card-body">
+        <div class="row g-3">
+
+          <div class="col-md-6">
+            <label asp-for="@Model.User.FirstName" class="col-sm-4 col-form-label"><strong>First Name</strong></label>
+            <input asp-for="@Model.User.FirstName" class="form-control" aria-required="true" placeholder="" disabled />
+            <span asp-validation-for="@Model.User.FirstName" class="text-danger"></span>
+          </div>
+          <div class="col-md-6">
+            <label asp-for="@Model.User.LastName" class="col-sm-4 col-form-label"><strong>Last Name</strong></label>
+            <input asp-for="@Model.User.LastName" class="form-control" aria-required="true" placeholder="" disabled />
+            <span asp-validation-for="@Model.User.LastName" class="text-danger"></span>
+          </div>
+
+          <form asp-action="UpdatePreferredName" method="post">
+            <div class="row align-items-end">
+              <div class="col-md-6">
+                <label asp-for="@Model.User.PreferredName"><strong>Preferred Name</strong></label>
+                <input asp-for="@Model.User.PreferredName" class="form-control" placeholder="" />
+              </div>
+              <div class="col-md-3">
+                <button type="submit" class="btn btn-secondary btn-border">
+                  Update
+                </button>
+              </div>
+              <span asp-validation-for="@Model.User.PreferredName" class="text-danger"></span>
+            </div>
+          </form>
+
+          <div class="col-md-6">
+            <label asp-for="@Model.User.Email"><strong>Email</strong></label>
+            <input asp-for="@Model.User.Email" class="form-control" autocomplete="username" aria-required="true"
+              placeholder="name@example.com" disabled />
+            <span asp-validation-for="@Model.User.Email" class="text-danger"></span>
+          </div>
+
+          <div class="col-md-12 py-3">
+            <span class="me-2"><b>Roles:</b></span>
+            @if (User.IsInRole("Admin"))
+            {
+              <span class="badge badge-warning me-2">admin</span>
+            }
+            @if (User.IsInRole("Teacher"))
+            {
+              <span class="badge badge-info me-2">teacher</span>
+            }
+            @if (User.IsInRole("Student"))
+            {
+              <span class="badge badge-success me-2">student</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- #endregion -->
+
+  <!-- #region Change Password -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Password</h3>
+    </div>
+    <div class="card-body">
+      <form asp-action="ChangePassword" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row px-2">
+          <div class="form-group col">
+            <label asp-for="OldPassword"></label>
+            <input asp-for="OldPassword" class="form-control" />
+            <span asp-validation-for="OldPassword" class="text-danger"></span>
+          </div>
+          <div class="form-group col">
+            <label asp-for="NewPassword"></label>
+            <input asp-for="NewPassword" class="form-control" />
+            <span asp-validation-for="NewPassword" class="text-danger"></span>
+          </div>
+          <div class="form-group col">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+          </div>
+        </div>
+        <div class="row mt-2 px-1">
+          <div class="col-4">
+            <button type="submit" class="btn btn-secondary btn-border" asp-controller="Account"
+              asp-action="ChangePassword">
+              Change Password
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+  <!-- #endregion -->
+
+</div>
+</div>
+
+@section Scripts {
+  <partial name="_ValidationScriptsPartial" />
+}

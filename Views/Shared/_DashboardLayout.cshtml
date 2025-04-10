@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>@ViewData["Title"] - ComIT_eLearning</title>
+
+  <!-- Fonts and icons -->
+  <script src="~/lib/kaiadmin/js/plugin/webfont/webfont.min.js"></script>
+  <script>
+    WebFont.load({
+      google: { "families": ["Public Sans:300,400,500,600,700"] },
+      custom: { "families": ["Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['/lib/kaiadmin/css/fonts.min.css'] },
+      active: function () {
+        sessionStorage.fonts = true;
+      }
+    });
+  </script>
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="~/lib/kaiadmin/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="~/lib/kaiadmin/css/plugins.min.css">
+  <link rel="stylesheet" href="~/lib/kaiadmin/css/kaiadmin.min.css">
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/ComIT_eLearning.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+  <div class="wrapper">
+    @await Html.PartialAsync("_Sidebar")
+
+    <div class="main-panel">
+      @await Html.PartialAsync("_DashboardHeader")
+
+      <!-- Main  -->
+      <div class="container">
+        <div class="page-inner">
+          <main role="main" class="pb-3">
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            }
+
+            @if (TempData["ErrorMessages"] != null)
+            {
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["ErrorMessages"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            }
+
+            @RenderBody()
+          </main>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!--   Core JS Files   -->
+  <script src="~/lib/kaiadmin/js/core/jquery-3.7.1.min.js"></script>
+  <script src="~/lib/kaiadmin/js/core/popper.min.js"></script>
+  <script src="~/lib/kaiadmin/js/core/bootstrap.min.js"></script>
+
+  <!-- jQuery Scrollbar -->
+  <script src="~/lib/kaiadmin/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+  <!-- Kaiadmin JS -->
+  <script src="~/lib/kaiadmin/js/kaiadmin.min.js"></script>
+
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

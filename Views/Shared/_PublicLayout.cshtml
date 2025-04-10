@@ -27,22 +27,14 @@
 </head>
 
 <body>
-  <div class="wrapper">
-    @await Html.PartialAsync("_Sidebar")
+  <div class="wrapper d-flex flex-column">
+    @await Html.PartialAsync("_PublicHeader")
 
-    <div class="main-panel">
-      @await Html.PartialAsync("_Header")
-
-      <!-- Main  -->
-      <div class="container">
-        <div class="page-inner">
-          <main role="main" class="pb-3">
-            @RenderBody()
-          </main>
-        </div>
-      </div>
-
-    </div>
+    <!-- Main -->
+    <main role="main" class="flex-grow-1 d-flex justify-content-center align-items-center">
+      @RenderBody()
+    </main>
+  </div>
   </div>
 
   <!--   Core JS Files   -->
