@@ -33,6 +33,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     await DbInitializer.SeedRolesAndAdminUser(services);
+    await DbInitializer.SeedCourses(services);
 }
 
 // Configure the HTTP request pipeline.
