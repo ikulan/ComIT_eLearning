@@ -9,13 +9,15 @@ namespace ComIT_eLearning.Models
     public int Id { get; set; }
 
     [Required]
-    public string UserId { get; set; }
+    required public string UserId { get; set; }
 
     [ForeignKey("UserId")]
     public ApplicationUser User { get; set; }
 
-    public int TeacherId { get; set; }
-    public PositionType Position { get; set; }
+    [Display(Name = "Employee Number")]
+    required public string EmployeeNumber { get; set; }
+
+    required public PositionType Position { get; set; }
     public string? Department { get; set; }
     public string? OfficeLocation { get; set; }
 
