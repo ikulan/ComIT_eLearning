@@ -1,10 +1,15 @@
-@model ComIT_eLearning.Areas.Admin.ViewModels.CreateTeacherViewModel
+@model ComIT_eLearning.Areas.Admin.ViewModels.TeacherViewModel
+
+@{
+  var formAction = ViewData["FormAction"]?.ToString() ?? "Create";
+}
 
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-8">
-      <form asp-action="Create">
+      <form asp-action="@formAction">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="UserId" />
 
         <div class="form-group">
           <label asp-for="Department" class="control-label"></label>

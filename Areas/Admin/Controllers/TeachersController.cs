@@ -38,12 +38,47 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
                                  .Select(s => new { Value = s, Text = s.ToString() });
 
       ViewBag.PositionList = new SelectList(positionList, "Value", "Text");
-      return View(new CreateTeacherViewModel());
+      return View(new TeacherViewModel());
+    }
+
+    public async Task<IActionResult> Edit(string userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+      var profile = await _context.TeacherProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
+
+      if (user == null || profile == null)
+      {
+        return NotFound();
+      }
+
+      var model = new TeacherViewModel
+      {
+        UserId = user.Id,
+        FirstName = user.FirstName,
+        LastName = user.LastName,
+        PreferredName = user.PreferredName,
+        Email = user.Email,
+        PhoneNumber = user.PhoneNumber,
+
+        EmployeeNumber = profile.EmployeeNumber,
+        Position = profile.Position,
+        Department = profile.Department,
+        OfficeLocation = profile.OfficeLocation,
+        Description = profile.Description,
+        WebsiteUrl = profile.WebsiteUrl
+      };
+
+      var positionList = Enum.GetValues(typeof(PositionType))
+                                 .Cast<PositionType>()
+                                 .Select(s => new { Value = s, Text = s.ToString() });
+
+      ViewBag.PositionList = new SelectList(positionList, "Value", "Text");
+      return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CreateTeacherViewModel model)
+    public async Task<IActionResult> Create(TeacherViewModel model)
     {
       if (!ModelState.IsValid)
       {
@@ -106,5 +141,46 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
 
       return RedirectToAction("Index", "Teachers", new { area = "Admin" });
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(TeacherViewModel model)
+    {
+      if (!ModelState.IsValid || string.IsNullOrEmpty(model.UserId))
+      {
+        return View(model);
+      }
+
+      var user = await _userManager.FindByIdAsync(model.UserId);
+      if (user == null) return NotFound();
+
+      user.FirstName = model.FirstName;
+      user.LastName = model.LastName;
+      user.PreferredName = model.PreferredName;
+      user.Email = model.Email;
+      user.UserName = model.Email;
+      user.PhoneNumber = model.PhoneNumber;
+
+      await _userManager.UpdateAsync(user);
+
+      var profile = await _context.TeacherProfiles.FirstOrDefaultAsync(p => p.UserId == model.UserId);
+      if (profile != null)
+      {
+        profile.EmployeeNumber = model.EmployeeNumber;
+        profile.Position = model.Position;
+        profile.Department = model.Department;
+        profile.OfficeLocation = model.OfficeLocation;
+        profile.Description = model.Description;
+        profile.WebsiteUrl = model.WebsiteUrl;
+
+        _context.TeacherProfiles.Update(profile);
+        await _context.SaveChangesAsync();
+      }
+
+      TempData["SuccessMessage"] = "Teacher profile updated successfully.";
+
+      return RedirectToAction("Index", "Teachers", new { area = "Admin" });
+    }
+
   }
 }

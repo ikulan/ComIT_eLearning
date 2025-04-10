@@ -3,8 +3,10 @@ using ComIT_eLearning.Models.Enums;
 
 namespace ComIT_eLearning.Areas.Admin.ViewModels
 {
-    public class CreateTeacherViewModel
+    public class TeacherViewModel
     {
+        public string? UserId { get; set; } // null = new user
+
         [Required]
         public string? FirstName { get; set; }
 
