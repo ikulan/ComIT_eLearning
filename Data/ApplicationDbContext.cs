@@ -9,5 +9,7 @@ namespace ComIT_eLearning.Data
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Course> Courses { get; set; }
+    public DbSet<TeacherProfile> TeacherProfiles { get; set; }
+    public DbSet<StudentProfile> StudentProfiles { get; set; }
   }
 }

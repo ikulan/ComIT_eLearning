@@ -15,3 +15,12 @@ public enum CourseStatus
   Completed,
   Cancelled
 }
+
+public enum PositionType
+{
+  Professor,
+  AssociateProfessor,
+  AssistantProfessor,
+  Lecturer,
+  TeachingAssistant
+}
