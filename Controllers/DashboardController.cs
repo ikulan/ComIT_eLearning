@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ComIT_eLearning.Models;
+using ComIT_eLearning.Attributes;
 
 namespace ComIT_eLearning.Controllers;
 
@@ -13,7 +14,14 @@ public class DashboardController : Controller
     _logger = logger;
   }
 
+  [WIP]
   public IActionResult Index()
+  {
+    return View();
+  }
+
+  [WIP]
+  public IActionResult Help()
   {
     return View();
   }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using ComIT_eLearning.Models;
+using ComIT_eLearning.Attributes;
 
 namespace ComIT_eLearning.Controllers
 {
@@ -37,6 +38,12 @@ namespace ComIT_eLearning.Controllers
       var viewModel = new AccountViewModel();
       viewModel.User = user;
       return View(viewModel);
+    }
+
+    [WIP]
+    public async Task<IActionResult> Profile()
+    {
+      return View();
     }
 
     [HttpPost]
