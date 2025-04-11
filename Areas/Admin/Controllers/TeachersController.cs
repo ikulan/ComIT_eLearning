@@ -112,7 +112,8 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
         LastName = model.LastName,
         PreferredName = model.PreferredName,
         PhoneNumber = model.PhoneNumber,
-        EmailConfirmed = false // User must register with invitation
+        EmailConfirmed = false, // User must register with invitation
+        IsActive = false
       };
 
       var result = await _userManager.CreateAsync(user);
@@ -124,9 +125,6 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       }
 
       // 2. Assign "Teacher" role
-      if (!await _roleManager.RoleExistsAsync("Teacher"))
-        await _roleManager.CreateAsync(new IdentityRole("Teacher"));
-
       await _userManager.AddToRoleAsync(user, "Teacher");
 
       // 3. Create TeacherProfile
@@ -145,17 +143,11 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
 
       // 4. Generate invitation token
       var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "Invitation");
-
-      // 5. Generate registration link 
-      var registrationUrl = Url.Action(
-        action: "Registration",
-        controller: "Account",
-        values: new { area = "Identity", userId = user.Id, token },
-        protocol: Request.Scheme
-      );
+      user.InvitationToken = token;
+      user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
 
       // TODO: send email OR show link
-      TempData["SuccessMessage"] = $"Invitation link: {registrationUrl}";
+      TempData["SuccessMessage"] = $"A teacher account is created: {user.GetFullName()}";
 
       return RedirectToAction("Index", "Teachers", new { area = "Admin" });
     }

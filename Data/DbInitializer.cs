@@ -33,7 +33,8 @@ public static class DbInitializer
         LastName = "Liu",
         UserName = adminEmail,
         Email = adminEmail,
-        EmailConfirmed = true
+        EmailConfirmed = true,
+        IsActive = true
       };
 
       var result = await userManager.CreateAsync(user, adminPassword);

@@ -13,14 +13,10 @@ namespace ComIT_eLearning.Models
 
     public string? PreferredName { get; set; } = String.Empty;
 
-    // [Required]
-    // public required string StudentNumber { get; set; }
-
     // Registration related
+    public bool IsActive { get; set; }
     public string? InvitationToken { get; set; }
-    public bool IsInvitationUsed { get; set; }
     public DateTime? InvitationExpiry { get; set; }
-    public string? InvitationRole { get; set; }
 
     public string GetDisplayName()
     {
