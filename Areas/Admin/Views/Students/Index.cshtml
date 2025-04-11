@@ -40,21 +40,7 @@
                     @item.User?.GetFullName()
                 </td>
                 <td>
-                    @if (item.User.EmailConfirmed)
-                    {
-                        <div class="d-flex gap-2 align-items-center">
-                            <span class="d-inline-block rounded-circle bg-success" style="width: 15px; height: 15px;"></span>
-                            <span>Active</span>
-                        </div>
-
-                    }
-                    else
-                    {
-                        <div class="d-flex gap-2 align-items-center">
-                            <span class="d-inline-block rounded-circle bg-danger" style="width: 15px; height: 15px;"></span>
-                            <span>Inactive</span>
-                        </div>
-                    }
+                    @Html.DisplayFor(modelItem => item.User.AccountStatus, "AccountStatus")
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-userId="@item.UserId">Edit</a> |

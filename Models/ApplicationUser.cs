@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace ComIT_eLearning.Models
@@ -17,6 +18,8 @@ namespace ComIT_eLearning.Models
     public bool IsActive { get; set; }
     public string? InvitationToken { get; set; }
     public DateTime? InvitationExpiry { get; set; }
+    [NotMapped]
+    public string AccountStatus => GetStatus();
 
     public string GetDisplayName()
     {
@@ -31,6 +34,20 @@ namespace ComIT_eLearning.Models
     public string GetAvatar()
     {
       return FirstName[0].ToString().ToUpper() + LastName[0].ToString().ToUpper();
+    }
+
+    public string GetStatus()
+    {
+      if (!string.IsNullOrEmpty(InvitationToken))
+        return "Invited";
+
+      if (InvitationExpiry.HasValue && InvitationExpiry < DateTime.UtcNow)
+        return "Expired";
+
+      if (IsActive)
+        return "Active";
+
+      return "Inactive";
     }
 
   }
