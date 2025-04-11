@@ -76,6 +76,24 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       return View(model);
     }
 
+    // GET: Courses/Details/5
+    public async Task<IActionResult> Details(string userId)
+    {
+      if (userId == null)
+      {
+        return NotFound();
+      }
+      var user = await _userManager.FindByIdAsync(userId);
+      var profile = await _context.TeacherProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
+
+      if (user == null || profile == null)
+      {
+        return NotFound();
+      }
+
+      return View(profile);
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(TeacherViewModel model)
