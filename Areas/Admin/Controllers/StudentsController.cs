@@ -7,6 +7,7 @@ using ComIT_eLearning.Data;
 using ComIT_eLearning.Models;
 using ComIT_eLearning.Models.Enums;
 using ComIT_eLearning.Areas.Admin.ViewModels;
+using ComIT_eLearning.Utils;
 
 namespace ComIT_eLearning.Areas.Admin.Controllers
 {
@@ -134,7 +135,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       await _context.SaveChangesAsync();
 
       // 4. Generate invitation token
-      var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "Invitation");
+      var token = TokenGenerator.GenerateShortToken();
       user.InvitationToken = token;
       user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
       await _userManager.UpdateAsync(user);
