@@ -75,6 +75,18 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
         return NotFound();
       }
 
+      if (!string.IsNullOrEmpty(user.InvitationToken))
+      {
+        var registrationUrl = Url.Action(
+          "Registration",
+          "Account",
+          new { area = "", userId = user.Id, token = user.InvitationToken },
+          Request.Scheme
+        );
+
+        ViewBag.RegistrationUrl = registrationUrl;
+      }
+
       return View(profile);
     }
 
@@ -125,6 +137,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "Invitation");
       user.InvitationToken = token;
       user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
+      await _userManager.UpdateAsync(user);
 
       // TODO: send email OR show link
       TempData["SuccessMessage"] = $"A student account is created: {user.GetFullName()}";

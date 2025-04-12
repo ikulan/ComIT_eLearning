@@ -76,7 +76,6 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       return View(model);
     }
 
-    // GET: Courses/Details/5
     public async Task<IActionResult> Details(string userId)
     {
       if (userId == null)
@@ -145,6 +144,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "Invitation");
       user.InvitationToken = token;
       user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
+      await _userManager.UpdateAsync(user);
 
       // TODO: send email OR show link
       TempData["SuccessMessage"] = $"A teacher account is created: {user.GetFullName()}";

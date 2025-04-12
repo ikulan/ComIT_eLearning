@@ -38,11 +38,12 @@ namespace ComIT_eLearning.Models
 
     public string GetStatus()
     {
-      if (!string.IsNullOrEmpty(InvitationToken))
-        return "Invited";
-
+      // the orders matter
       if (InvitationExpiry.HasValue && InvitationExpiry < DateTime.UtcNow)
         return "Expired";
+
+      if (!string.IsNullOrEmpty(InvitationToken))
+        return "Invited";
 
       if (IsActive)
         return "Active";
