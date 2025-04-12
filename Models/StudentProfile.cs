@@ -14,6 +14,7 @@ namespace ComIT_eLearning.Models
     [ForeignKey("UserId")]
     public ApplicationUser User { get; set; }
 
+    [Display(Name = "Student Number")]
     public string StudentNumber { get; set; }
     public string? Department { get; set; }
   }

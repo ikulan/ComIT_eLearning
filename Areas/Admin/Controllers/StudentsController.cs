@@ -25,7 +25,6 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       _context = context;
     }
 
-    // GET: Courses
     public async Task<IActionResult> Index()
     {
       return View(await _context.StudentProfiles.Include(tp => tp.User).ToListAsync());
@@ -60,6 +59,23 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       };
 
       return View(model);
+    }
+
+    public async Task<IActionResult> Details(string userId)
+    {
+      if (userId == null)
+      {
+        return NotFound();
+      }
+      var user = await _userManager.FindByIdAsync(userId);
+      var profile = await _context.StudentProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
+
+      if (user == null || profile == null)
+      {
+        return NotFound();
+      }
+
+      return View(profile);
     }
 
     [HttpPost]

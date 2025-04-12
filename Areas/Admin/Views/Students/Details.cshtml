@@ -1,0 +1,82 @@
+@model ComIT_eLearning.Models.StudentProfile
+
+@{
+  ViewData["Title"] = "Details";
+}
+
+<div class="container">
+  <div class="d-flex justify-content-between align-items-end">
+    <h2>@Model.User.GetFullName()</h2>
+    <p class="mb-0"><a asp-action="Index">Back to List</a></p>
+  </div>
+  <hr />
+
+  <!-- #region Basic Info Card-->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Basic Info</h3>
+        <div class="card-tools">
+          <a asp-action="Edit" asp-route-userId="@Model?.UserId">
+            <button class="btn btn-secondary btn-border">
+              Edit
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row">
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.Department)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.StudentNumber)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.StudentNumber)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt class="col-sm-2">
+          @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+          @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <!-- #endregion Basic Info Card-->
+
+  <!-- #region Management Card-->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Account Management</h3>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><b>Registration</b></p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Courses</h3>
+      </div>
+    </div>
+    <div class="card-body">
+
+    </div>
+  </div>
+
+</div>
