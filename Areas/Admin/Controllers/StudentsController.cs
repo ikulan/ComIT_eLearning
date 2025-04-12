@@ -80,8 +80,8 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       {
         var registrationUrl = Url.Action(
           "Registration",
-          "Account",
-          new { area = "", userId = user.Id, token = user.InvitationToken },
+          null,
+          new { area = "", token = user.InvitationToken },
           Request.Scheme
         );
 
@@ -180,6 +180,23 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       TempData["SuccessMessage"] = "Teacher profile updated successfully.";
 
       return RedirectToAction("Index", "Students", new { area = "Admin" });
+    }
+
+    public async Task<IActionResult> RegenerateInvitation(string userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+      if (user == null) return NotFound();
+
+      var token = TokenGenerator.GenerateShortToken();
+      user.InvitationToken = token;
+      user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
+      await _userManager.UpdateAsync(user);
+
+      return RedirectToAction(
+        actionName: "Details",
+        controllerName: "Students",
+        routeValues: new { area = "Admin", userId = user.Id }
+      );
     }
 
   }

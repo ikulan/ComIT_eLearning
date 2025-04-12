@@ -78,7 +78,7 @@
         <div class="col-10">
         @if (Model.User.InvitationExpiry.HasValue)
         {
-          <p class="card-text">@Model.User.InvitationExpiry.Value.ToString("yyyy-MM-dd HH:mm")</p>
+          <p class="card-text">@Model.User.InvitationExpiry.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p>
         }
         else
         {
@@ -92,16 +92,45 @@
         <div class="col-10">
           @if (ViewBag.RegistrationUrl != null)
           {
-            <span>@ViewBag.RegistrationUrl.Substring(0, 60)...</span>
-            <button class="btn btn-sm btn-secondary btn-border" onclick="navigator.clipboard.writeText('@ViewBag.RegistrationUrl')">Copy</button>
-            @* <p><a href="@ViewBag.RegistrationUrl" target="_blank">@ViewBag.RegistrationUrl</a></p> *@
+            @* <span>@ViewBag.RegistrationUrl</span>
+            <button class="btn btn-sm btn-secondary btn-border" onclick="navigator.clipboard.writeText('@ViewBag.RegistrationUrl')">Copy</button>  *@
+            @* <p><a href="@ViewBag.RegistrationUrl" target="_blank">@ViewBag.RegistrationUrl</a></p>  *@
+            <div class="input-group mb-2 pe-4">
+              <input type="text"
+                class="form-control"
+                value="@ViewBag.RegistrationUrl"
+                readonly
+                id="registrationLink" />
+              <button class="btn btn-secondary btn-border"
+                type="button"
+                onclick="navigator.clipboard.writeText(document.getElementById('registrationLink').value)">
+                Copy
+              </button>
+            </div>
+
           }
         </div>
       
       <div class="col mt-2">
-      <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
+        <button
+          type="button"
+          class="btn btn-secondary btn-border"
+          data-bs-toggle="modal"
+          data-bs-target="#renew-invitation"
+        >
           Renew Invitation Link
-      </a>
+        </button>
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "renew-invitation",
+            Title = "Renew Invitation Link",
+            Body = "Regenerate the invitation link and extend its expiration by 7 days? The current link will become invalid.",
+            ConfirmLink = Url.Action("RegenerateInvitation", new { userId = @Model.UserId})
+        })
+        
+        @* <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
+          Renew Invitation Link
+        </a> *@
       </div>
       </div>
       
