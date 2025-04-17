@@ -149,16 +149,13 @@
             Body = $"Are you sure to deactivate this account?<br><b>{@Model.User.GetFullName()} ({@Model.StudentNumber})</b>",
             ConfirmLink = Url.Action("Deactivate", new { userId = @Model.UserId})
         })
-
-          @* <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
-            Deactivate Account
-          </a> *@
         </div>
-        <div>
+        <!-- TODO: Reset Password -->
+        @* <div>
           <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
             Reset Password
           </a>
-        </div>
+        </div> *@
       </div>
       <div class="col-2">
 
