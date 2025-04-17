@@ -26,13 +26,15 @@
       <ul class="nav nav-secondary">
 
         <!-- Dashboard  -->
-        <li class="nav-item active">
-          <a href="~/Dashboard.html">
+        <li class="nav-item">
+          <a href="~/Dashboard">
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
           </a>
         </li>
 
+@if (User.IsInRole("Teacher") || User.IsInRole("Student"))
+{        
         <!-- Courses -->
         <li class="nav-item ">
           <a data-bs-toggle="collapse" href="#sidebarCourses">
@@ -43,13 +45,19 @@
           <div class="collapse" id="sidebarCourses">
             <ul class="nav nav-collapse">
               <li>
+                <a href="~/Courses">
+                  All Courses
+                </a>
+              </li>
+              <li>
                 <a href="~/course/01.html">
-                  <span class="sub-item">Courses 1</span>
+                  <i class="fas fa-star"></i>
+                  Courses 1
                 </a>
               </li>
               <li>
                 <a href="~/course/02.html">
-                  <span class="sub-item"> Courses 2</span>
+                  <i class="fas fa-star"></i> Courses 2
                 </a>
               </li>
             </ul>
@@ -71,37 +79,59 @@
             <p>Calendar</p>
           </a>
         </li>
+}
 
+@if (User.IsInRole("Admin"))
+{
         <!-- Management (only for admin roles)  -->
-        <li class="nav-item ">
-          <a href="~/Management.html">
-            <i class="fas fa-database"></i>
-            <p>Management</p>
-          </a>
-        </li>
+          <li class="nav-section">
+            <span class="sidebar-mini-icon">
+              <i class="fa fa-ellipsis-h"></i>
+            </span>
+            <h4 class="text-section">Management</h4>
+          </li>
+          <li class="nav-item ">
+            <a href="~/Admin/Courses">
+              <i class="fas fa-book"></i>
+              <p>Courses</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="~/Admin/Teachers">
+              <i class="fas fa-user-tie"></i>
+              <p>Teachers</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a href="~/Admin/Students">
+              <i class="fas fa-graduation-cap"></i>
+              <p>Students</p>
+            </a>
+          </li>
+}
 
-        <!-- Subsectio: Settings and Help  -->
-        <li class="nav-section">
-          <span class="sidebar-mini-icon">
-            <i class="fa fa-ellipsis-h"></i>
-          </span>
-          <h4 class="text-section">Settings</h4>
-        </li>
-        <li class="nav-item ">
-          <a href="~/Settings.html">
-            <i class="fas fa-cog"></i>
-            <p>Settings</p>
-          </a>
-        </li>
-        <li class="nav-item ">
-          <a href="~/Help.html">
-            <i class="fas fa-question"></i>
-            <p>Help</p>
-          </a>
-        </li>
-      </ul>
-    </div>
-
+    <!-- Subsectio: Settings and Help  -->
+    <li class="nav-section">
+      <span class="sidebar-mini-icon">
+        <i class="fa fa-ellipsis-h"></i>
+      </span>
+      <h4 class="text-section">Settings</h4>
+    </li>
+    <li class="nav-item ">
+      <a href="~/Account">
+        <i class="fas fa-cog"></i>
+        <p>Settings</p>
+      </a>
+    </li>
+    <li class="nav-item ">
+      <a href="~/Dashboard/Help">
+        <i class="fas fa-question"></i>
+        <p>Help</p>
+      </a>
+    </li>
+    </ul>
   </div>
+
+</div>
 
 </div>

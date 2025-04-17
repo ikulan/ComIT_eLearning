@@ -10,9 +10,17 @@ public enum SemesterType
 
 public enum CourseStatus
 {
-  Ongoing,            // The course is currently active and running
-  Upcoming,           // The course is scheduled but not yet started
-  Completed,          // The course has finished
-  Canceled,           // The course has been canceled
-  Pending,            // The course is planned but not yet active
+  Pending,
+  Active,
+  Completed,
+  Cancelled
+}
+
+public enum PositionType
+{
+  Professor,
+  AssociateProfessor,
+  AssistantProfessor,
+  Lecturer,
+  TeachingAssistant
 }

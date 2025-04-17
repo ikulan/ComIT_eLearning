@@ -1,0 +1,18 @@
+@model string
+
+@{
+  var label = Model;
+  var color = label switch
+  {
+    "Invited" => "bg-warning",
+    "Expired" => "bg-secondary",
+    "Active" => "bg-success",
+    "Inactive" => "bg-danger",
+    _ => "bg-dark"
+  };
+}
+
+<div class="d-flex gap-2 align-items-center">
+  <span class="d-inline-block rounded-circle @color" style="width: 15px; height: 15px;"></span>
+  <span>@label</span>
+</div>

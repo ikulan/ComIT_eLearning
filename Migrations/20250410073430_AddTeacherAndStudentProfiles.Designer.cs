@@ -3,6 +3,7 @@ using System;
 using ComIT_eLearning.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ComIT_eLearning.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250410073430_AddTeacherAndStudentProfiles")]
+    partial class AddTeacherAndStudentProfiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.14");
@@ -43,10 +46,13 @@ namespace ComIT_eLearning.Migrations
                     b.Property<DateTime?>("InvitationExpiry")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("InvitationRole")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("InvitationToken")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsInvitationUsed")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LastName")
@@ -186,14 +192,13 @@ namespace ComIT_eLearning.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("EmployeeNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("OfficeLocation")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Position")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TeacherId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
