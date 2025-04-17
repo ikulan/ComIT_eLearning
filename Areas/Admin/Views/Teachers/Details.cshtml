@@ -18,7 +18,7 @@
         <h3 class="card-title">Basic Info</h3>
         <div class="card-tools">
           <a asp-action="Edit" asp-route-userId="@Model?.UserId">
-            <button class="btn btn-secondary btn-border">
+            <button class="btn btn-secondary">
               Edit
             </button>
           </a>
@@ -27,57 +27,181 @@
     </div>
     <div class="card-body">
       <dl class="row">
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.Department)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Department)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.Department)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.Department)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.EmployeeNumber)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.EmployeeNumber)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.EmployeeNumber)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.EmployeeNumber)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.Position)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Position)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.Position)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.Position)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.User.Email)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.User.Email)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.User.Email)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.User.Email)></p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.User.PhoneNumber)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.User.PhoneNumber)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.User.PhoneNumber)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Description)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.WebsiteUrl)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.WebsiteUrl)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.WebsiteUrl)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.WebsiteUrl)</p>
         </dd>
-        <dt class="col-sm-2">
-          @Html.DisplayNameFor(model => model.OfficeLocation)
+        <dt class="col-sm-3">
+          <p class="card-text">@Html.DisplayNameFor(model => model.OfficeLocation)</p>
         </dt>
-        <dd class="col-sm-10">
-          @Html.DisplayFor(model => model.OfficeLocation)
+        <dd class="col-sm-9">
+          <p class="card-text">@Html.DisplayFor(model => model.OfficeLocation)</p>
         </dd>
       </dl>
     </div>
   </div>
   <!-- #endregion Basic Info Card-->
+
+  <!-- #region Management Card-->
+<div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Account Management</h3>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="row align-items-center">
+        <div class="col-2">
+          <p class="card-text"><b>Account Status:</b></p>
+        </div>
+        <div class="col-10">@Html.DisplayFor(model => model.User.AccountStatus, "AccountStatus")</div>
+      </div>
+
+@if(!Model.User.IsActive)
+{
+  <div class="ms-4 mt-2">
+      <div class="row align-items-center">
+        <div class="col-2">
+          <p class="card-text">Invitation Expiry:</p>
+        </div>
+        <div class="col-10">
+        @if (Model.User.InvitationExpiry.HasValue)
+        {
+          <p class="card-text">@Model.User.InvitationExpiry.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p>
+        }
+        else
+        {
+          <p class="card-text text-muted">Not set</p>
+        }
+        </div>
+      
+        <div class="col-2">
+          <p class="card-text">Invitation Link:</p>
+        </div>
+        <div class="col-10">
+          @if (ViewBag.RegistrationUrl != null)
+          {
+            <div class="input-group mb-2 pe-4">
+              <input type="text"
+                class="form-control"
+                value="@ViewBag.RegistrationUrl"
+                readonly
+                id="registrationLink" />
+              <button class="btn btn-secondary btn-border"
+                type="button"
+                onclick="navigator.clipboard.writeText(document.getElementById('registrationLink').value)">
+                Copy
+              </button>
+            </div>
+
+          }
+        </div>
+      
+      <div class="col mt-2">
+        <button
+          type="button"
+          class="btn btn-secondary btn-border"
+          data-bs-toggle="modal"
+          data-bs-target="#renew-invitation"
+        >
+          Renew Invitation Link
+        </button>
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "renew-invitation",
+            Title = "Renew Invitation Link",
+            Body = "Regenerate the invitation link and extend its expiration by 7 days? The current link will become invalid.",
+            ConfirmLink = Url.Action("RegenerateInvitation", new { userId = @Model.UserId})
+        })
+
+      </div>
+      </div>
+      
+  </div>
+}      
+
+      <p class="card-text mt-3"><b>Account Actions:</b></p>
+      <div class="d-flex gap-3 ms-4">
+        <div>
+          <button
+          type="button"
+          class="btn btn-secondary btn-border"
+          data-bs-toggle="modal"
+          data-bs-target="#deactivate"
+        >
+          Deactivate Account
+        </button>
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "deactivate",
+            Title = "Deactivate Account",
+            Body = $"Are you sure to deactivate this account?<br><b>{@Model.User.GetFullName()} ({@Model.EmployeeNumber})</b>",
+            ConfirmLink = Url.Action("Deactivate", new { userId = @Model.UserId})
+        })
+        </div>
+        <!-- TODO: Reset Password -->
+        @* <div>
+          <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
+            Reset Password
+          </a>
+        </div> *@
+      </div>
+      <div class="col-2">
+
+      </div>
+      <div class="col-10"></div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Courses</h3>
+      </div>
+    </div>
+    <div class="card-body">
+
+    </div>
+  </div>
 
 </div>
