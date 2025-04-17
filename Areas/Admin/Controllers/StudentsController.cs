@@ -205,6 +205,8 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       if (user == null) return NotFound();
 
       user.IsActive = false;
+      user.InvitationToken = null;
+      user.InvitationExpiry = null;
       await _userManager.UpdateAsync(user);
 
       return RedirectToAction(

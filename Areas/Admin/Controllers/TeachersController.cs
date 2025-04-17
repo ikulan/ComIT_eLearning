@@ -7,6 +7,8 @@ using ComIT_eLearning.Data;
 using ComIT_eLearning.Models;
 using ComIT_eLearning.Models.Enums;
 using ComIT_eLearning.Areas.Admin.ViewModels;
+using ComIT_eLearning.Utils;
+
 
 namespace ComIT_eLearning.Areas.Admin.Controllers
 {
@@ -90,6 +92,18 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
         return NotFound();
       }
 
+      if (!string.IsNullOrEmpty(user.InvitationToken))
+      {
+        var registrationUrl = Url.Action(
+          "Register",
+          "Account",
+          new { area = "", userId = userId, token = user.InvitationToken },
+          Request.Scheme
+        );
+
+        ViewBag.RegistrationUrl = registrationUrl;
+      }
+
       return View(profile);
     }
 
@@ -141,7 +155,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       await _context.SaveChangesAsync();
 
       // 4. Generate invitation token
-      var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "Invitation");
+      var token = TokenGenerator.GenerateShortToken();
       user.InvitationToken = token;
       user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
       await _userManager.UpdateAsync(user);
@@ -191,6 +205,41 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
 
       return RedirectToAction("Index", "Teachers", new { area = "Admin" });
     }
+
+    public async Task<IActionResult> RegenerateInvitation(string userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+      if (user == null) return NotFound();
+
+      var token = TokenGenerator.GenerateShortToken();
+      user.InvitationToken = token;
+      user.InvitationExpiry = DateTime.UtcNow.AddDays(7);
+      await _userManager.UpdateAsync(user);
+
+      return RedirectToAction(
+        actionName: "Details",
+        controllerName: "Teachers",
+        routeValues: new { area = "Admin", userId = user.Id }
+      );
+    }
+
+    public async Task<IActionResult> Deactivate(string userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+      if (user == null) return NotFound();
+
+      user.IsActive = false;
+      user.InvitationToken = null;
+      user.InvitationExpiry = null;
+      await _userManager.UpdateAsync(user);
+
+      return RedirectToAction(
+        actionName: "Details",
+        controllerName: "Teachers",
+        routeValues: new { area = "Admin", userId = user.Id }
+      );
+    }
+
 
   }
 }
