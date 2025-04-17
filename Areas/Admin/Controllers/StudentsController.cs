@@ -79,9 +79,9 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       if (!string.IsNullOrEmpty(user.InvitationToken))
       {
         var registrationUrl = Url.Action(
-          "Registration",
-          null,
-          new { area = "", token = user.InvitationToken },
+          "Register",
+          "Account",
+          new { area = "", userId = userId, token = user.InvitationToken },
           Request.Scheme
         );
 
