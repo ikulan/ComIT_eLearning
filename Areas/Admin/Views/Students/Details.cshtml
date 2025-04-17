@@ -169,6 +169,12 @@
     <div class="card-header">
       <div class="card-head-row card-tools-still-right">
         <h3 class="card-title">Courses</h3>
+        <div class="card-tools"></div>
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#coursesModal">
+            Enroll Courses
+          </button>
+          @await Html.PartialAsync("_CoursesModal")
+        </div>
       </div>
     </div>
     <div class="card-body">

@@ -171,6 +171,32 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> ListPartial(string? searchString, int page = 1, int pageSize = 10)
+        {
+            var query = _context.Courses.Where(c => c.Status == CourseStatus.Active);
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var lowerSearch = searchString.ToLower();
+                query = query.Where(c =>
+                    c.Name.ToLower().Contains(lowerSearch) ||
+                    c.Number.ToLower() == lowerSearch);
+            }
+
+            var totalCount = await query.CountAsync(); // Optional: For showing total pages
+
+            var pagedCourses = await query
+                .OrderByDescending(c => c.StartDate)
+                .ThenBy(c => c.Number)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+
+            return PartialView("_CourseListPartial", pagedCourses);
+        }
+
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);

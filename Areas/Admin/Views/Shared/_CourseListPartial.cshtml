@@ -1,0 +1,30 @@
+@model List<Course>
+
+@if (Model == null || !Model.Any())
+{
+  <div class="text-success text-center">
+    <p>No courses found matching your search.</p>
+  </div>
+}
+else
+{
+  <table class="table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Number</th>
+        <th>Course Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var course in Model)
+      {
+        <tr>
+          <td></td>
+          <td>@course.Number</td>
+          <td>@course.Name</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}

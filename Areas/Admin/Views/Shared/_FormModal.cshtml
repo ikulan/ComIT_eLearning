@@ -1,0 +1,27 @@
+@model ComIT_eLearning.Models.FormModalViewModel
+
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title fw-bold" id="@Model.ModalId-Label">
+          @Model.Title
+        </h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+        </button>
+      </div>
+      <div class="modal-body">
+        <form asp-controller="Courses" asp-action="Index" method="get" class="d-flex mb-3 gap-2">
+          <input type="text" name="searchString" class="form-control mr-2" placeholder="Search courses..." />
+          <button type="submit" class="btn btn-outline-primary">Search</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link btn-secondary text-decoration-none" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <a class="btn btn-secondary" href="@Model.ConfirmLink">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
