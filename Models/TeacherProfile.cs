@@ -24,5 +24,6 @@ namespace ComIT_eLearning.Models
     public string? Description { get; set; }
     public string? WebsiteUrl { get; set; }
 
+    public ICollection<Course> EnrolledCourses { get; set; } = new List<Course>();
   }
 }

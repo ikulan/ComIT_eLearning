@@ -55,7 +55,7 @@ namespace ComIT_eLearning.Models
     public DateTime EndDate { get; set; } = DateTime.Today;
 
     // Store class times as a JSON string in the database
-    private string ClassTimesJson { get; set; }
+    private string ClassTimesJson { get; set; } = String.Empty;
 
     [NotMapped]  // Tell EF Core to ignore this property
     public List<ClassTime> ClassTimes
@@ -71,6 +71,9 @@ namespace ComIT_eLearning.Models
     }
 
     [Url]
-    public string? ImageUrl { get; set; } = String.Empty;
+    public string? ImageUrl { get; set; }
+
+    public ICollection<TeacherProfile> Teachers { get; set; } = new List<TeacherProfile>();
+    public ICollection<StudentProfile> Students { get; set; } = new List<StudentProfile>();
   }
 }
