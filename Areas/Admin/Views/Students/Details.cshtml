@@ -82,7 +82,7 @@
         }
         else
         {
-          <p class="text-muted">Not set</p>
+          <p class="card-text text-muted">Not set</p>
         }
         </div>
       
@@ -92,9 +92,6 @@
         <div class="col-10">
           @if (ViewBag.RegistrationUrl != null)
           {
-            @* <span>@ViewBag.RegistrationUrl</span>
-            <button class="btn btn-sm btn-secondary btn-border" onclick="navigator.clipboard.writeText('@ViewBag.RegistrationUrl')">Copy</button>  *@
-            @* <p><a href="@ViewBag.RegistrationUrl" target="_blank">@ViewBag.RegistrationUrl</a></p>  *@
             <div class="input-group mb-2 pe-4">
               <input type="text"
                 class="form-control"
@@ -127,10 +124,7 @@
             Body = "Regenerate the invitation link and extend its expiration by 7 days? The current link will become invalid.",
             ConfirmLink = Url.Action("RegenerateInvitation", new { userId = @Model.UserId})
         })
-        
-        @* <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
-          Renew Invitation Link
-        </a> *@
+
       </div>
       </div>
       
@@ -140,9 +134,25 @@
       <p class="card-text mt-3"><b>Account Actions:</b></p>
       <div class="d-flex gap-3 ms-4">
         <div>
-          <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
+          <button
+          type="button"
+          class="btn btn-secondary btn-border"
+          data-bs-toggle="modal"
+          data-bs-target="#deactivate"
+        >
+          Deactivate Account
+        </button>
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "deactivate",
+            Title = "Deactivate Account",
+            Body = $"Are you sure to deactivate this account?<br><b>{@Model.User.GetFullName()} ({@Model.StudentNumber})</b>",
+            ConfirmLink = Url.Action("Deactivate", new { userId = @Model.UserId})
+        })
+
+          @* <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">
             Deactivate Account
-          </a>
+          </a> *@
         </div>
         <div>
           <a asp-action="Edit" asp-route-userId="@Model?.UserId" class="btn btn-secondary btn-border">

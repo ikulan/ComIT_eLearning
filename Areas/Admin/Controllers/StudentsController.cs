@@ -199,5 +199,20 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       );
     }
 
+    public async Task<IActionResult> Deactivate(string userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+      if (user == null) return NotFound();
+
+      user.IsActive = false;
+      await _userManager.UpdateAsync(user);
+
+      return RedirectToAction(
+        actionName: "Details",
+        controllerName: "Students",
+        routeValues: new { area = "Admin", userId = user.Id }
+      );
+    }
+
   }
 }
