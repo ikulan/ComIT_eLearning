@@ -46,6 +46,69 @@ namespace ComIT_eLearning.Controllers
       return View();
     }
 
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(string userId, string token)
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+
+      bool isValid = true;
+      if (user == null)
+      {
+        isValid = false;
+      }
+      else
+      {
+        if (user.IsActive)
+          return RedirectToAction("Index", "Dashboard");
+
+        if (string.IsNullOrEmpty(token))
+          isValid = false;
+        else if (user.InvitationExpiry == null || user.InvitationExpiry < DateTime.UtcNow)
+          isValid = false;
+        else if (user.InvitationToken == null || user.InvitationToken != token)
+          isValid = false;
+      }
+
+      if (!isValid)
+      {
+        ModelState.AddModelError(string.Empty, "Invalid or expired invitation link.");
+        return RedirectToAction("Index", "Home");
+      }
+
+      var model = new SetPasswordViewModel
+      {
+        UserId = userId,
+        Token = token,
+      };
+
+      return View("SetPassword", model);
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(SetPasswordViewModel model)
+    {
+      var user = await _userManager.FindByIdAsync(model.UserId);
+      if (user == null)
+        return NotFound();
+
+      var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+      if (!result.Succeeded)
+      {
+        foreach (var error in result.Errors)
+          ModelState.AddModelError(string.Empty, error.Description);
+        return View(model);
+      }
+
+      user.IsActive = true;
+      user.InvitationToken = null;
+      user.InvitationExpiry = null;
+      await _userManager.UpdateAsync(user);
+
+      await _signInManager.SignInAsync(user, isPersistent: false);
+      return RedirectToAction("Index", "Dashboard");
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ChangePassword(AccountViewModel model)
