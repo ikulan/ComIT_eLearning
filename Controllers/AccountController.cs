@@ -72,7 +72,7 @@ namespace ComIT_eLearning.Controllers
       if (!isValid)
       {
         ModelState.AddModelError(string.Empty, "Invalid or expired invitation link.");
-        return RedirectToAction("Index", "Home");
+        return View("Error", new ErrorViewModel { Message = "Invalid or expired invitation link." });
       }
 
       var model = new SetPasswordViewModel
