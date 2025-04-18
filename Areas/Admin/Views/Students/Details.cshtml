@@ -169,16 +169,41 @@
     <div class="card-header">
       <div class="card-head-row card-tools-still-right">
         <h3 class="card-title">Courses</h3>
-        <div class="card-tools"></div>
+        <div class="card-tools">
           <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#coursesModal">
-            Enroll Courses
+            Add Courses
           </button>
-          @await Html.PartialAsync("_CoursesModal")
+          @await Html.PartialAsync("_CoursesModal", new CoursesModalViewModel{
+            StudentId = Model.Id.ToString(),
+            AddCourseUrl = Url.Action("AddStudents", "Courses", new { studentId = Model.Id.ToString()})
+          })
         </div>
       </div>
     </div>
     <div class="card-body">
-
+        <table class="table">
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Course Name</th>
+        <th>Year</th>
+        <th>Semester</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var course in Model.EnrolledCourses)
+      {
+        <tr>
+          <td>@course.Number</td>
+          <td>@course.Name</td>
+          <td>@course.Year</td>
+          <td>@course.Semester</td>
+          <td><button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-course-id="@course.Id"> Remove </button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
     </div>
   </div>
 

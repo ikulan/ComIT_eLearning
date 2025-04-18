@@ -196,6 +196,37 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return PartialView("_CourseListPartial", pagedCourses);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddStudents([FromBody] AddStudentsToCourseRequest request)
+        {
+            var course = await _context.Courses
+                .Include(c => c.Students)
+                .FirstOrDefaultAsync(c => c.Id == request.CourseId);
+
+            if (course == null)
+            {
+                return NotFound("Course not found.");
+            }
+
+            var students = await _context.StudentProfiles
+                .Where(s => request.StudentIds.Contains(s.Id))
+                .ToListAsync();
+
+            foreach (var student in students)
+            {
+                if (!course.Students.Any(s => s.Id == student.Id))
+                {
+                    course.Students.Add(student);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, added = students.Count });
+        }
+
+
 
         private bool CourseExists(int id)
         {

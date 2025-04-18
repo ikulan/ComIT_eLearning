@@ -1,8 +1,11 @@
-<div class="modal fade" id="coursesModal" tabindex="-1" aria-labelledby="coursesModalLabel" aria-hidden="true">
+@model ComIT_eLearning.Models.CoursesModalViewModel
+
+<div class="modal fade" id="coursesModal" tabindex="-1" aria-labelledby="coursesModalLabel" aria-hidden="true"
+  data-student-id="@Model.StudentId">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="coursesModalLabel">Enroll Courses</h5>
+        <h5 class="modal-title" id="coursesModalLabel">Browse Courses</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="coursesModalBody">
@@ -18,12 +21,6 @@
           <!-- Course list will be injected here -->
           <div class="text-center">Loading...</div>
         </div>
-      </div>
-      <div class="modal-footer text">
-        <button type="button" class="btn btn-link btn-secondary text-decoration-none" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <a class="btn btn-secondary" href="">Add</a>
       </div>
     </div>
   </div>
@@ -57,5 +54,34 @@
     searchTimeout = setTimeout(() => {
       loadCourses(query);
     }, 300); // wait 300ms after typing stops
+  });
+</script>
+
+<script>
+  const addCourseUrl = '@Model.AddCourseUrl';
+  const studentId = '@Model.StudentId'
+  //const studentId = document.getElementById('coursesModal').dataset.studentId;
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('add-course-btn')) {
+      const button = e.target;
+      const courseId = button.dataset.courseId;
+
+      fetch(addCourseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // if needed
+        },
+        body: JSON.stringify({
+          courseId: courseId,
+          studentIds: [studentId]
+        })
+      })
+        .then(res => res.json())
+        .then(data => alert('Course added!'))
+        .catch(err => console.error(err));
+
+    }
   });
 </script>
