@@ -181,29 +181,12 @@
       </div>
     </div>
     <div class="card-body">
-        <table class="table">
-    <thead>
-      <tr>
-        <th>Number</th>
-        <th>Course Name</th>
-        <th>Year</th>
-        <th>Semester</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var course in Model.EnrolledCourses)
-      {
-        <tr>
-          <td>@course.Number</td>
-          <td>@course.Name</td>
-          <td>@course.Year</td>
-          <td>@course.Semester</td>
-          <td><button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-course-id="@course.Id"> Remove </button></td>
-        </tr>
-      }
-    </tbody>
-  </table>
+        @await Html.PartialAsync("_CourseListPartial", new CourseListViewModel{
+          CourseList = Model.EnrolledCourses.ToList(),
+          EmptyMessage = "No enrolled courses.",
+          showStatus = true,
+          showRemoveButton = true
+        })
     </div>
   </div>
 

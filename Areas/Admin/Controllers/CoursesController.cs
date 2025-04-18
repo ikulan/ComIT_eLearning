@@ -193,7 +193,13 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
                 .ToListAsync();
 
 
-            return PartialView("_CourseListPartial", pagedCourses);
+            return PartialView("_CourseListPartial", new CourseListViewModel
+            {
+                CourseList = pagedCourses,
+                EmptyMessage = "No courses found matching your search.",
+                showStatus = false,
+                showAddButton = true
+            });
         }
 
         [HttpPost]
