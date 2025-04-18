@@ -1,0 +1,19 @@
+@using ComIT_eLearning.Models.Enums
+@model CourseStatus
+
+@{
+  var label = Model.ToString();
+  var color = Model switch
+  {
+    CourseStatus.Pending => "bg-warning",
+    CourseStatus.Active => "bg-success",
+    CourseStatus.Completed => "bg-primary",
+    CourseStatus.Cancelled => "bg-danger",
+    _ => "bg-dark"
+  };
+}
+
+<div class="d-flex gap-2 align-items-center">
+  <span class="d-inline-block rounded-circle @color" style="width: 15px; height: 15px;"></span>
+  <span>@label</span>
+</div>
