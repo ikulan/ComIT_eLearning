@@ -45,7 +45,9 @@ else
             }
             @if (Model.showRemoveButton)
             {
-              <button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-course-id="@course.Id">
+              <button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-bs-toggle="modal"
+                data-bs-target="#remove-course-confirm" data-course-id="@course.Id" data-course-name="@course.Name"
+                data-course-number="@course.Number">
                 Remove
               </button>
             }

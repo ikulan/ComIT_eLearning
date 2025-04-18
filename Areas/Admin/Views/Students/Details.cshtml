@@ -187,7 +187,36 @@
           showStatus = true,
           showRemoveButton = true
         })
+
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "remove-course-confirm",
+            Title = "Remove from Course",
+            Body = "",
+            ConfirmLink = ""
+        })
     </div>
   </div>
 
 </div>
+
+<script>
+  const deleteCourseUrl = '@Url.Action("RemoveStudent", "Courses")';
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-course-btn')) {
+      const btn = e.target;
+
+      const courseId = btn.dataset.courseId;
+      const courseName = btn.dataset.courseName;
+      const courseNumber = btn.dataset.courseNumber;
+      
+      const targetModal = document.querySelector('#remove-course-confirm');
+      const modalBody = targetModal.querySelector('.modal-body');
+      const confirmLink = targetModal.querySelector('#confirm-link');
+
+      modalBody.innerHTML = `<p>Are you sure to remove this student from course <b>${courseNumber} - ${courseName}</b>?</p>`;
+      confirmLink.href = `${deleteCourseUrl}?courseId=${courseId}&studentId=${studentId}`;
+    }
+  });
+</script>
