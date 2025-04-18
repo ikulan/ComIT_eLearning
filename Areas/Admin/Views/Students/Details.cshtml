@@ -173,7 +173,7 @@
           <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#coursesModal">
             Add Courses
           </button>
-          @await Html.PartialAsync("_CoursesModal", new CoursesModalViewModel{
+          @await Html.PartialAsync("_AddCourseModal", new AddCourseModalViewModel{
             StudentId = Model.Id.ToString(),
             AddCourseUrl = Url.Action("AddStudents", "Courses", new { studentId = Model.Id.ToString()})
           })
