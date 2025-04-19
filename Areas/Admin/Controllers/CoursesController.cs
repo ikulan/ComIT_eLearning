@@ -256,6 +256,58 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return LocalRedirect(returnUrl);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTeacher([FromBody] AddTeacherToCourseRequest request)
+        {
+            var course = await _context.Courses
+                .Include(c => c.Teachers)
+                .FirstOrDefaultAsync(c => c.Id == request.CourseId);
+
+            if (course == null)
+            {
+                return NotFound("Course not found.");
+            }
+
+            var teacher = await _context.TeacherProfiles.FindAsync(request.TeacherId);
+            if (teacher == null)
+            {
+                return NotFound("Teacher not found.");
+            }
+
+            if (!course.Teachers.Any(s => s.Id == teacher.Id))
+            {
+                course.Teachers.Add(teacher);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok(new { success = true });
+        }
+
+        public async Task<IActionResult> RemoveTeacher(int courseId, int teacherId, string? returnUrl = null)
+        {
+            var course = await _context.Courses
+                .Include(c => c.Teachers)
+                .FirstOrDefaultAsync(c => c.Id == courseId);
+
+            if (course == null)
+                return NotFound("Course not found.");
+
+            var teacher = await _context.TeacherProfiles.FindAsync(teacherId);
+            if (teacher == null)
+                return NotFound("Teacher not found.");
+
+            if (course.Teachers.Any(s => s.Id == teacherId))
+            {
+                course.Teachers.Remove(teacher);
+                await _context.SaveChangesAsync();
+            }
+
+            returnUrl ??= Url.Action("Details", new { id = courseId });
+
+            return LocalRedirect(returnUrl);
+        }
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);

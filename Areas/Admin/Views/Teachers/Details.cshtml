@@ -193,15 +193,38 @@
     </div>
   </div>
 
-  <div class="card">
+  <div id="courses-section" class="card">
     <div class="card-header">
       <div class="card-head-row card-tools-still-right">
         <h3 class="card-title">Courses</h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#coursesModal">
+            Add Courses
+          </button>
+          @await Html.PartialAsync("_AddCourseModal")
+        </div>
       </div>
     </div>
     <div class="card-body">
+        @await Html.PartialAsync("_CourseListPartial", new CourseListViewModel{
+          CourseList = Model.EnrolledCourses.ToList(),
+          EmptyMessage = "No enrolled courses.",
+          showStatus = true,
+          showRemoveButton = true
+        })
 
+        @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
+        {
+            ModalId = "remove-course-confirm",
+            Title = "Remove from Course",
+            Body = "",
+            ConfirmLink = ""
+        })
     </div>
   </div>
 
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ScriptsPartial", Model)
+}
