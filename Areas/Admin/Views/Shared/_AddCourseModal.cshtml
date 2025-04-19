@@ -1,7 +1,4 @@
-@model ComIT_eLearning.Models.AddCourseModalViewModel
-
-<div class="modal fade" id="coursesModal" tabindex="-1" aria-labelledby="coursesModalLabel" aria-hidden="true"
-  data-student-id="@Model.StudentId">
+<div class="modal fade" id="coursesModal" tabindex="-1" aria-labelledby="coursesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -54,40 +51,5 @@
     searchTimeout = setTimeout(() => {
       loadCourses(query);
     }, 300); // wait 300ms after typing stops
-  });
-</script>
-
-<script>
-  const addCourseUrl = '@Model.AddCourseUrl';
-  const studentId = '@Model.StudentId';
-  //const studentId = document.getElementById('coursesModal').dataset.studentId;
-
-  document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('add-course-btn')) {
-      const button = e.target;
-      const courseId = button.dataset.courseId;
-
-      fetch(addCourseUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // if needed
-        },
-        body: JSON.stringify({
-          courseId: courseId,
-          studentIds: [studentId]
-        })
-      })
-        .then(res => {
-          if (res.ok) {
-            window.location.reload();
-          }
-          else {
-            alert("Failed to add the course.");
-          }
-        })
-        .catch(err => console.error(err));
-
-    }
   });
 </script>
