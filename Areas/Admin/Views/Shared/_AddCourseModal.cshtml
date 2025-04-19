@@ -78,8 +78,14 @@
           studentIds: [studentId]
         })
       })
-        .then(res => res.json())
-        .then(data => alert('Course added!'))
+        .then(res => {
+          if (res.ok) {
+            window.location.reload();
+          }
+          else {
+            alert("Failed to add the course.");
+          }
+        })
         .catch(err => console.error(err));
 
     }
