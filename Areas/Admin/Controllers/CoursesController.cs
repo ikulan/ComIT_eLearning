@@ -232,7 +232,29 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return Ok(new { success = true, added = students.Count });
         }
 
+        public async Task<IActionResult> RemoveStudent(int courseId, int studentId, string? returnUrl = null)
+        {
+            var course = await _context.Courses
+                .Include(c => c.Students)
+                .FirstOrDefaultAsync(c => c.Id == courseId);
 
+            if (course == null)
+                return NotFound("Course not found.");
+
+            var student = await _context.StudentProfiles.FindAsync(studentId);
+            if (student == null)
+                return NotFound("Student not found.");
+
+            if (course.Students.Any(s => s.Id == studentId))
+            {
+                course.Students.Remove(student);
+                await _context.SaveChangesAsync();
+            }
+
+            returnUrl ??= Url.Action("Details", new { id = courseId });
+
+            return LocalRedirect(returnUrl);
+        }
 
         private bool CourseExists(int id)
         {

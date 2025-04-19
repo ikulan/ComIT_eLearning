@@ -202,6 +202,7 @@
 
 <script>
   const deleteCourseUrl = '@Url.Action("RemoveStudent", "Courses")';
+  const returnUrl = '@Url.Action("Details", new {userId = Model.UserId})';
 
   document.addEventListener('click', function (e) {
     if (e.target.classList.contains('remove-course-btn')) {
@@ -216,7 +217,7 @@
       const confirmLink = targetModal.querySelector('#confirm-link');
 
       modalBody.innerHTML = `<p>Are you sure to remove this student from course <b>${courseNumber} - ${courseName}</b>?</p>`;
-      confirmLink.href = `${deleteCourseUrl}?courseId=${courseId}&studentId=${studentId}`;
+      confirmLink.href = `${deleteCourseUrl}?courseId=${courseId}&studentId=${studentId}&returnUrl=${returnUrl}`;
     }
   });
 </script>
