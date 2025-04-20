@@ -85,7 +85,10 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
         return NotFound();
       }
       var user = await _userManager.FindByIdAsync(userId);
-      var profile = await _context.TeacherProfiles.Include(p => p.EnrolledCourses).FirstOrDefaultAsync(p => p.UserId == userId);
+      var profile = await _context.TeacherProfiles
+        .Include(p => p.User)
+        .Include(p => p.EnrolledCourses)
+        .FirstOrDefaultAsync(p => p.UserId == userId);
 
       if (user == null || profile == null)
       {
