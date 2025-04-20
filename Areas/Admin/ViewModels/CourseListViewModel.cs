@@ -1,4 +1,6 @@
-namespace ComIT_eLearning.Models
+using ComIT_eLearning.Models;
+
+namespace ComIT_eLearning.Areas.Admin.Models
 {
   public class CourseListViewModel
   {

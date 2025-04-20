@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ComIT_eLearning.Data;
 using ComIT_eLearning.Models;
 using ComIT_eLearning.Models.Enums;
+using ComIT_eLearning.Areas.Admin.Models;
 
 namespace ComIT_eLearning.Areas.Admin.Controllers
 {

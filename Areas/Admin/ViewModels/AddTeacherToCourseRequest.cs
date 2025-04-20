@@ -1,4 +1,4 @@
-namespace ComIT_eLearning.Models
+namespace ComIT_eLearning.Areas.Admin.Models
 {
   public class AddTeacherToCourseRequest
   {

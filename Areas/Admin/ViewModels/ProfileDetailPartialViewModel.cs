@@ -1,6 +1,6 @@
 using ComIT_eLearning.Models;
 
-namespace ComIT_eLearning.Areas.Admin.ViewModels
+namespace ComIT_eLearning.Areas.Admin.Models
 {
   public class ProfileDetailPartialViewModel
   {
