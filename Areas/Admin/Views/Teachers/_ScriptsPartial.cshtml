@@ -1,0 +1,59 @@
+@model ComIT_eLearning.Models.TeacherProfile
+
+<!-- Add Course -->
+<script>
+  const teacherId = '@Model.Id.ToString()';
+  const addCourseUrl = '@Url.Action("AddTeacher", "Courses")';
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('add-course-btn')) {
+      const button = e.target;
+      const courseId = button.dataset.courseId;
+
+      fetch(addCourseUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() // if needed
+        },
+        body: JSON.stringify({
+          courseId: courseId,
+          teacherId: teacherId
+        })
+      })
+        .then(res => {
+          if (res.ok) {
+            window.location.reload();
+          }
+          else {
+            alert("Failed to add the course.");
+          }
+        })
+        .catch(err => console.error(err));
+
+    }
+  });
+</script>
+
+<!-- Remove Course -->
+<script>
+  const deleteCourseUrl = '@Url.Action("RemoveTeacher", "Courses")';
+  const returnUrl = '@Url.Action("Details", new { userId = Model.UserId })';
+
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-course-btn')) {
+      const btn = e.target;
+
+      const courseId = btn.dataset.courseId;
+      const courseName = btn.dataset.courseName;
+      const courseNumber = btn.dataset.courseNumber;
+
+      const targetModal = document.querySelector('#remove-course-confirm');
+      const modalBody = targetModal.querySelector('.modal-body');
+      const confirmLink = targetModal.querySelector('#confirm-link');
+
+      modalBody.innerHTML = `<p>Are you sure to remove this teacher from course <b>${courseNumber} - ${courseName}</b>?</p>`;
+      confirmLink.href = `${deleteCourseUrl}?courseId=${courseId}&teacherId=${teacherId}&returnUrl=${returnUrl}#courses-section`;
+    }
+  });
+</script>

@@ -1,4 +1,4 @@
-@model ComIT_eLearning.Models.ConfirmModalViewModel
+@model ComIT_eLearning.Areas.Admin.Models.ConfirmModalViewModel
 
 <div class="modal fade" id="@Model.ModalId" tabindex="-1" role="dialog" aria-labelledby="@Model.ModalId-Label"
   aria-hidden="true">
@@ -20,7 +20,7 @@
         <button type="button" class="btn btn-link btn-secondary text-decoration-none" data-bs-dismiss="modal">
           Cancel
         </button>
-        <a class="btn btn-secondary" href="@Model.ConfirmLink">Confirm</a>
+        <a id="confirm-link" class="btn btn-secondary" href="@Model.ConfirmLink">Confirm</a>
       </div>
     </div>
   </div>

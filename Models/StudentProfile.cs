@@ -17,6 +17,8 @@ namespace ComIT_eLearning.Models
     [Display(Name = "Student Number")]
     public string StudentNumber { get; set; }
     public string? Department { get; set; }
+
+    public ICollection<Course> EnrolledCourses { get; set; } = new List<Course>();
   }
 
 }

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using ComIT_eLearning.Models.Enums;
 
-namespace ComIT_eLearning.Areas.Admin.ViewModels
+namespace ComIT_eLearning.Areas.Admin.Models
 {
     public class TeacherViewModel
     {
