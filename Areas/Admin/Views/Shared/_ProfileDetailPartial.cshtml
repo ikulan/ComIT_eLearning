@@ -18,7 +18,7 @@
 
 @if(!Model.User.IsActive)
 {
-  <div class="ms-4 mt-2">
+    <div class="ms-4 mt-2">
       <div class="row align-items-center">
         <div class="col-2">
           <p class="card-text">Invitation Expiry:</p>
@@ -72,13 +72,10 @@
             Body = "Regenerate the invitation link and extend its expiration by 7 days? The current link will become invalid.",
             ConfirmLink = Url.Action("RegenerateInvitation", new { userId = @Model.UserId})
         })
-
       </div>
-      </div>
-      
-  </div>
-}      
-
+    </div>
+  </div>     
+} 
     <p class="card-text mt-3"><b>Account Actions:</b></p>
     <div class="d-flex gap-3 ms-4">
       <div>
@@ -104,8 +101,8 @@
           Reset Password
         </a>
       </div> *@
+    </div>
   </div>
-
 </div>
 <!-- #endofregion Management Card-->
 
