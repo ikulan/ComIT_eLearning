@@ -1,78 +1,89 @@
 @model ComIT_eLearning.Models.Course
 
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-end">
+    <h2>@Model.Number - @Model.Name</h2>
+    <p class="mb-0"><a asp-action="Index">Back to List</a></p>
+  </div>
+  <hr />
 
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+  <!-- #region Basic Info Card-->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Basic Info</h3>
+        <div class="card-tools">
+          <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Edit</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row align-items-center">
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Status)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Status)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Name)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Name)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Number)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Number)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Number)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Department)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Department)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Year)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Year)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Semester)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Semester)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Semester)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Semester)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Description)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.StartDate)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.StartDate)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.EndDate)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.EndDate)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.ImageUrl)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.ImageUrl)</p>
         </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+      </dl>
+    </div>
+  </div>
 </div>
