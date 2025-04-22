@@ -61,6 +61,8 @@ else
       }
     </tbody>
   </table>
+
+  <!-- Pagination -->
   @if (totalPages > 1)
   {
     <nav aria-label="Page navigation">
@@ -96,4 +98,21 @@ else
       </ul>
     </nav>
   }
+  <!-- End of Pagination-->
 }
+
+<script>
+  function loadCourses(p = 1) {
+    const search = document.getElementById('searchInput')?.value || "";
+    const status = document.getElementById('statusFilter')?.value || "";
+
+    fetch(`/Admin/Courses/ListPartial?searchString=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}&p=${p}`)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("coursesList").innerHTML = html;
+      })
+      .catch(error => {
+        document.getElementById("coursesList").innerHTML = '<div class="text-danger">Failed to load courses.</div>';
+      });
+  }
+</script>

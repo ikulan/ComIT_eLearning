@@ -14,6 +14,6 @@ namespace ComIT_eLearning.Areas.Admin.Models
 
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 5;
-    public int TotalCount { get; set; }
+    public int TotalCount { get; set; } = 0;
   }
 }

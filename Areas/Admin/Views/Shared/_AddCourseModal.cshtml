@@ -8,7 +8,7 @@
       <div class="modal-body" id="coursesModalBody">
         <!-- Search bar -->
         <div class="input-icon mb-3">
-          <input id="courseSearchInput" type="text" class="form-control" placeholder="Search courses by name or number">
+          <input id="searchInput" type="text" class="form-control" placeholder="Search courses by name or number">
           <span class="input-icon-addon">
             <i class="fa fa-search search-icon"></i>
           </span>
@@ -26,17 +26,6 @@
 <script>
   let searchTimeout;
 
-  function loadCourses(search = "") {
-    fetch(`/Admin/Courses/ListPartial?searchString=${encodeURIComponent(search)}`)
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('coursesList').innerHTML = html;
-      })
-      .catch(error => {
-        document.getElementById('coursesList').innerHTML = '<div class="text-danger">Failed to load courses.</div>';
-      });
-  }
-
   // Initial load when modal opens
   const modal = document.getElementById('coursesModal');
   modal.addEventListener('show.bs.modal', function () {
@@ -44,12 +33,12 @@
   });
 
   // Monitor user's typing
-  document.getElementById('courseSearchInput').addEventListener('input', function () {
+  document.getElementById('searchInput').addEventListener('input', function () {
     clearTimeout(searchTimeout);
     const query = this.value;
 
     searchTimeout = setTimeout(() => {
-      loadCourses(query);
+      loadCourses();
     }, 300); // wait 300ms after typing stops
   });
 </script>
