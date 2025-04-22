@@ -4,12 +4,44 @@
     ViewData["Title"] = "Course List";
 }
 
-<div class="d-flex justify-content-between align-items-end">
+<div class="d-flex justify-content-between align-items-center">
     <h1>Course List</h1>
-    <p><a asp-action="Create">Create New</a></p>
+    <div>
+        <a asp-action="Create" class="btn btn-secondary me-2">Create New</a>
+        <a asp-action="Create" class="btn btn-secondary">Upload CSV</a>
+    </div>
+</div>
+<hr>
+
+<!-- Filter Form -->
+<div class="d-flex mb-2 justify-content-between align-items-end">
+    <form asp-action="ChangeStatus" method="post" class="col-12">
+        <div class="d-flex gap-2 align-items-center">
+            <div class="input-icon flex-grow-1">
+                <input id="searchInput" type="text" class="form-control" placeholder="Search courses by name or number">
+                <span class="input-icon-addon">
+                    <i class="fa fa-search search-icon"></i>
+                </span>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <label class="mb-0 me-2">
+                    <p class="mb-0 text-center">Status:</p>
+                </label>
+                <select name="Status" class="form-control form-select flex-shrink-0" style="width: 150px;">
+                    @foreach (var status in Html.GetEnumSelectList<ComIT_eLearning.Models.Enums.CourseStatus>())
+                    {
+                        <option value="@status.Value">@status.Text</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">
+                Filter
+            </button>
+        </div>
+    </form>
 </div>
 
-
+<!-- Course List -->
 <table class="table">
     <thead>
         <tr>
@@ -51,9 +83,7 @@
                     @Html.DisplayFor(modelItem => item.Year) @Html.DisplayFor(modelItem => item.Semester)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>
             </tr>
         }
