@@ -189,7 +189,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
                     c.Number.ToLower() == lowerSearch);
             }
 
-            var totalCount = await query.CountAsync(); // Optional: For showing total pages
+            var totalCount = await query.CountAsync();
 
             var pagedCourses = await query
                 .OrderByDescending(c => c.StartDate)
@@ -203,8 +203,11 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             {
                 CourseList = pagedCourses,
                 EmptyMessage = "No courses found matching your search.",
-                showStatus = false,
-                showAddButton = true
+                ShowStatus = false,
+                ShowAddButton = true,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
             });
         }
 

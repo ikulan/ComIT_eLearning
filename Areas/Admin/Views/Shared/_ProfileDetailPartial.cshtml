@@ -123,8 +123,9 @@
     @await Html.PartialAsync("_CourseListPartial", new CourseListViewModel{
     CourseList = Model.EnrolledCourses.ToList(),
         EmptyMessage = "No enrolled courses.",
-        showStatus = true,
-        showRemoveButton = true
+        ShowStatus = true,
+        ShowRemoveButton = true,
+        TotalCount = 5
         })
 
     @await Html.PartialAsync("_ConfirmModal", new ConfirmModalViewModel
