@@ -22,7 +22,6 @@ else
         }
         <th>Number</th>
         <th>Course Name</th>
-        <th>Year</th>
         <th>Semester</th>
         <th></th>
       </tr>
@@ -39,8 +38,7 @@ else
           }
           <td>@course.Number</td>
           <td>@course.Name</td>
-          <td>@course.Year</td>
-          <td>@course.Semester</td>
+          <td>@course.Year @course.Semester</td>
           <td>
             @if (Model.ShowAddButton)
             {
@@ -104,9 +102,8 @@ else
 <script>
   function loadCourses(p = 1) {
     const search = document.getElementById('searchInput')?.value || "";
-    const status = document.getElementById('statusFilter')?.value || "";
 
-    fetch(`/Admin/Courses/ListPartial?searchString=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}&p=${p}`)
+    fetch(`/Admin/Courses/ListPartial?searchString=${encodeURIComponent(search)}&p=${p}`)
       .then(response => response.text())
       .then(html => {
         document.getElementById("coursesList").innerHTML = html;

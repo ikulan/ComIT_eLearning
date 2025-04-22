@@ -1,15 +1,16 @@
 using ComIT_eLearning.Models;
+using ComIT_eLearning.Models.Enums;
+
 
 namespace ComIT_eLearning.Areas.Admin.Models
 {
-  public class CourseListViewModel
+  public class CourseIndexViewModel
   {
     public List<Course> CourseList { get; set; }
     public string EmptyMessage { get; set; }
 
-    public bool ShowStatus { get; set; } = false;
-    public bool ShowAddButton { get; set; } = false;
-    public bool ShowRemoveButton { get; set; } = false;
+    public string SearchValue { get; set; } = "";
+    public CourseStatus? SelectedStatus { get; set; } = null;
 
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 5;

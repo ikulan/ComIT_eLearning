@@ -24,10 +24,45 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? p, string? searchString, CourseStatus? status)
         {
-            return View(await _context.Courses.ToListAsync());
+            int page = p ?? 1;
+            int pageSize = 10;
+
+            var query = _context.Courses.AsQueryable();
+
+            if (status.HasValue)
+            {
+                query = query.Where(c => c.Status == status.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var lowerSearch = searchString.ToLower();
+                query = query.Where(c =>
+                    c.Name.ToLower().Contains(lowerSearch) ||
+                    c.Number.ToLower() == lowerSearch);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var pagedCourses = await query
+                .OrderByDescending(c => c.StartDate)
+                .ThenBy(c => c.Number)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View("Index", new CourseIndexViewModel
+            {
+                CourseList = pagedCourses,
+                EmptyMessage = "No courses found matching your search.",
+                SearchValue = searchString,
+                SelectedStatus = status,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            });
         }
 
         // GET: Courses/Details/5
@@ -176,9 +211,13 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ListPartial(string? searchString, int p = 1, int pageSize = 5)
+        // The endpoint for listing course results in addCourseModal
+        public async Task<IActionResult> ListPartial(string? searchString, int? p = 1)
         {
+            int page = p.GetValueOrDefault();
+            int pageSize = 5;
             var validStatus = new[] { CourseStatus.Active, CourseStatus.Pending };
+
             var query = _context.Courses.Where(c => validStatus.Contains(c.Status));
 
             if (!string.IsNullOrWhiteSpace(searchString))
@@ -194,18 +233,16 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             var pagedCourses = await query
                 .OrderByDescending(c => c.StartDate)
                 .ThenBy(c => c.Number)
-                .Skip((p - 1) * pageSize)
+                .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
-
 
             return PartialView("_CourseListPartial", new CourseListViewModel
             {
                 CourseList = pagedCourses,
                 EmptyMessage = "No courses found matching your search.",
-                ShowStatus = false,
                 ShowAddButton = true,
-                Page = p,
+                Page = page,
                 PageSize = pageSize,
                 TotalCount = totalCount
             });
