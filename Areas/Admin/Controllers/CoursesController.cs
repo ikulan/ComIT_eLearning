@@ -334,6 +334,50 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return RedirectToAction("Details", new { id = course.Id });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UploadCourses(IFormFile csvFile)
+        {
+            if (csvFile == null || csvFile.Length == 0)
+            {
+                TempData["Error"] = "No file selected.";
+                return RedirectToAction("Upload");
+            }
+
+            // TODO: Validate csv file contents and dynamic fields mapping
+            using var reader = new StreamReader(csvFile.OpenReadStream());
+            var courses = new List<Course>();
+
+            // Skip header
+            string? line = await reader.ReadLineAsync();
+
+            while ((line = await reader.ReadLineAsync()) != null)
+            {
+                var fields = line.Split(',');
+
+                if (fields.Length != 8) continue; // Validate correct field count
+
+                courses.Add(new Course
+                {
+                    Name = fields[0].Trim(),
+                    Number = fields[1].Trim(),
+                    Department = fields[2].Trim(),
+                    Year = int.Parse(fields[3]),
+                    Semester = (SemesterType)Enum.Parse(typeof(SemesterType), fields[4].Trim()),
+                    Description = fields[5].Trim(),
+                    StartDate = DateTime.Parse(fields[6]),
+                    EndDate = DateTime.Parse(fields[7]),
+                    Status = CourseStatus.Pending
+                });
+            }
+
+            _context.Courses.AddRange(courses);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = $"{courses.Count} courses uploaded successfully.";
+            return RedirectToAction("Index");
+        }
+
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);
