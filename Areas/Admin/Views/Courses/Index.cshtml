@@ -5,7 +5,7 @@
 }
 
 <div class="d-flex justify-content-between align-items-center">
-  <h1>Course List</h1>
+  <h1>@ViewData["Title"]</h1>
   <div class="d-flex">
     <a asp-action="Create" class="btn btn-secondary me-2">Create New</a>
     <div>
@@ -45,7 +45,8 @@
         <label class="mb-0 me-2">
           <p class="mb-0 text-center">Status:</p>
         </label>
-        <select name="Status" class="form-control form-select flex-shrink-0" style="width: 150px;">
+        <select name="Status" class="form-control form-select flex-shrink-0" style="width: 200px;">
+          <option value="">All</option>
           @foreach (var status in Html.GetEnumSelectList<ComIT_eLearning.Models.Enums.CourseStatus>())
           {
             <option value="@status.Value">@status.Text</option>

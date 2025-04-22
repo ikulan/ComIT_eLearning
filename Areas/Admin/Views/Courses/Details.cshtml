@@ -1,3 +1,4 @@
+@using ComIT_eLearning.Models.Enums
 @model ComIT_eLearning.Models.Course
 
 @{
@@ -30,19 +31,19 @@
         <dd class="col-sm-10">
           <div class="d-flex gap-3 align-items-center">
             <p class="card-text">@Html.DisplayFor(model => model.Status)</p>
-            <form asp-action="ChangeStatus" method="post" class="row">
+            <form asp-action="ChangeStatus" method="post">
               <div class="d-flex align-items-center">
                 <input type="hidden" name="id" value="@Model.Id" />
-                <div class="form-group">
+                <div class="form-group" style="width: 180px;">
                   @Html.DropDownListFor(
                   m => m.Status,
-                                    Html.GetEnumSelectList<ComIT_eLearning.Models.Enums.CourseStatus>(),
+                                    Html.GetEnumSelectList<CourseStatus>(),
                                     new { @class = "form-control form-select" }
                                     )
                   <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div>
-                  <button type="submit" class="btn btn-sm btn-secondary">
+                  <button type="submit" class="btn btn-border btn-secondary">
                     Update Status
                   </button>
                 </div>
@@ -50,6 +51,26 @@
             </form>
           </div>
         </dd>
+
+        <!-- Teachers -->
+        <dt class="col-sm-2">
+          <p class="card-text">Teachers</p>
+        </dt>
+        <dd class="col-sm-10">
+          <ul class="mb-0 list-unstyled">
+            @foreach (var teacher in Model.Teachers)
+            {
+              <li>
+                <p class="card-text">
+                  <a asp-action="Details" asp-controller="Teachers" asp-route-userId="@teacher.UserId">
+                    @teacher.User.GetFullName() (@teacher.Department)
+                  </a>
+                </p>
+              </li>
+            }
+          </ul>
+        </dd>
+
         <dt class="col-sm-2">
           <p class="card-text">@Html.DisplayNameFor(model => model.Name)</p>
         </dt>
@@ -104,23 +125,6 @@
         <dd class="col-sm-10">
           <p class="card-text">@Html.DisplayFor(model => model.ImageUrl)</p>
         </dd>
-        <dt class="col-sm-2">
-          <p class="card-text">Teachers</p>
-        </dt>
-        <dd class="col-sm-10">
-          <ul>
-            @foreach (var teacher in Model.Teachers)
-            {
-              <li>
-                <p class="card-text">
-                  @teacher.User.GetFullName()
-                  (<a asp-action="Details" asp-controller="Teachers" asp-route-userId="@teacher.UserId"
-                    class="">Details</a>)
-                </p>
-              </li>
-            }
-          </ul>
-        </dd>
       </dl>
     </div>
   </div>
@@ -139,6 +143,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th>#</th>
             <th>Student Number</th>
             <th>Department</th>
             <th>Name</th>
@@ -146,9 +151,13 @@
           </tr>
         </thead>
         <tbody>
+          @{
+            var index = 0;
+          }
           @foreach (var student in Model.Students)
           {
             <tr>
+              <th scope="row">@(++index)</th>
               <td>@student.StudentNumber</td>
               <td>@student.Department</td>
               <td>@student.User.GetFullName()</td>
