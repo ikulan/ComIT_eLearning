@@ -39,7 +39,11 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             }
 
             var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Teachers)
+                .ThenInclude(teacher => teacher.User)
+                .Include(c => c.Students)
+                .ThenInclude(student => student.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
                 return NotFound();

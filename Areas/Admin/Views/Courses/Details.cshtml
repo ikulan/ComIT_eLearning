@@ -99,7 +99,65 @@
         <dd class="col-sm-10">
           <p class="card-text">@Html.DisplayFor(model => model.ImageUrl)</p>
         </dd>
+        <dt class="col-sm-2">
+          <p class="card-text">Teachers</p>
+        </dt>
+        <dd class="col-sm-10">
+          <ul>
+            @foreach (var teacher in Model.Teachers)
+            {
+              <li>
+                <p class="card-text">
+                  @teacher.User.GetFullName()
+                  (<a asp-action="Details" asp-controller="Teachers" asp-route-userId="@teacher.UserId"
+                    class="">Details</a>)
+                </p>
+              </li>
+            }
+          </ul>
+        </dd>
       </dl>
     </div>
   </div>
+  <!-- end of Basic Info Card-->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Students</h3>
+        <div class="card-tools">
+          <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Add</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Student Number</th>
+            <th>Department</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var student in Model.Students)
+          {
+            <tr>
+              <td>@student.StudentNumber</td>
+              <td>@student.Department</td>
+              <td>@student.User.GetFullName()</td>
+              <td>
+                <button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-bs-toggle="modal"
+                  data-bs-target="#remove-course-confirm">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
