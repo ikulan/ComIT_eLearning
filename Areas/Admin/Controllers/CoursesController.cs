@@ -313,6 +313,27 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return LocalRedirect(returnUrl);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int? id, CourseStatus status)
+        {
+            if (id == null)
+            {
+                return BadRequest("Course ID is required.");
+            }
+
+            var course = await _context.Courses.FindAsync(id.Value);
+
+            if (course == null)
+            {
+                return NotFound("Course not found.");
+            }
+
+            course.Status = status;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = course.Id });
+        }
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.Id == id);
