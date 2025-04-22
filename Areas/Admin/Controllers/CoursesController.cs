@@ -176,9 +176,10 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ListPartial(string? searchString, int page = 1, int pageSize = 10)
+        public async Task<IActionResult> ListPartial(string? searchString, int page = 1, int pageSize = 5)
         {
-            var query = _context.Courses.Where(c => c.Status == CourseStatus.Active);
+            var validStatus = new[] { CourseStatus.Active, CourseStatus.Pending };
+            var query = _context.Courses.Where(c => validStatus.Contains(c.Status));
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
