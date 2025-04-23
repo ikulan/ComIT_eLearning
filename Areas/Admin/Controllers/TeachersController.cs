@@ -100,7 +100,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
         var registrationUrl = Url.Action(
           "Register",
           "Account",
-          new { area = "", userId = userId, token = user.InvitationToken },
+          new { area = "", token = user.InvitationToken, userId = userId },
           Request.Scheme
         );
 
