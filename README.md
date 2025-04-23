@@ -6,13 +6,13 @@ The goal of this project is to develop a web-based E-Learning system that enable
 
 ## Key Features
 
-- **User Management**: Role-based access for teachers, students, and administrators.
-- **Course & Class Management**: Create and manage courses, enroll students, and assign teachers.
-- **Attendance Tracking**: Mark and review student attendance.
-- **Assignments**: Create assignment contents by edit texts or uploading pdf files.
-- **Grading**: Record students' assignment and exam grades.
-- **Announcements & Notifications**: Email and in-app notifications for course announcements and important dates (e.g. assignment deadline, exam dates) reminders.
-- **Reporting & Analytics**: Generate reports on student performance and engagement.
+- [x] **User Management**: Role-based access for teachers, students, and administrators.
+- [x] **Course & Class Management**: Create and manage courses, enroll students, and assign teachers.
+- [ ] **Attendance Tracking**: Mark and review student attendance.
+- [ ] **Assignments**: Create assignment contents by edit texts or uploading pdf files.
+- [ ] **Grading**: Record students' assignment and exam grades.
+- [ ] **Announcements & Notifications**: Email and in-app notifications for course announcements and important dates (e.g. assignment deadline, exam dates) reminders.
+- [ ] **Reporting & Analytics**: Generate reports on student performance and engagement.
 
 ## Technology Stack
 
@@ -22,3 +22,7 @@ The goal of this project is to develop a web-based E-Learning system that enable
 - **Authentication**: ASP.NET Core Identity
 - **Hosting**: Azure / AWS (TBD)
 - **Version Control**: GitHub
+
+## Project Plan
+
+[Project Plan](Docs/project_plan.md)
