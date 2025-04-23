@@ -3,59 +3,133 @@
 }
 
 <div class="container">
-    <h1 class="mt-4">E-Learning System</h1>
+    <h1 class="my-4">E-Learning System</h1>
     <h2>Project Overview</h2>
     <p>The goal of this project is to develop a web-based E-Learning system that enables teachers to manage and record
         students' learning progress, assignments, scores, and attendance. This platform will provide an intuitive
         interface for teachers, students, and administrators to streamline learning tracking and class management.</p>
 
-    <h2>Key Features</h2>
-    <ul>
-        <li>
-            <p>User Management: Role-based access for teachers, students, and administrators.</p>
-        </li>
-        <li>
-            <p>Course & Class Management: Create and manage courses, enroll students, and assign teachers.</p>
-        </li>
-        <li>
-            <p>Attendance Tracking: Mark and review student attendance.</p>
-        </li>
-        <li>
-            <p>Assignments: Create assignment contents by edit texts or uploading pdf files.</p>
-        </li>
-        <li>
-            <p>Grading: Record students' assignment and exam grades.</p>
-        </li>
-        <li>
-            <p>Announcements & Notifications: Email and in-app notifications for course announcements and important
-                dates
-                (e.g. assignment deadline, exam dates) reminders.</p>
-        </li>
-        <li>
-            <p>Reporting & Analytics: Generate reports on student performance and engagement.</p>
-        </li>
-    </ul>
+    <div class="row">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Key Learnings</h3>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-category text-info mb-1">Authentication & Authorization</h3>
+                    <ul>
+                        <li>
+                            <p class="card-text">Integrated ASP.NET Core Identity for user authentication and role
+                                management</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Implemented invitation-based registration</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Role-based access control for teachers, students, and administrators
+                            </p>
+                        </li>
+                        <li>
+                            <p class="card-text">Features include login, logout, invitation link regeneration, and
+                                password change</p>
+                        </li>
+                    </ul>
 
-    <h2>Technology Stack</h2>
-    <ul>
-        <li>
-            <p>Frontend: HTML, CSS, Bootstrap (Template: <a
-                    href="https://themekita.com/demo-kaiadmin-lite-bootstrap-dashboard/documentation/index.html"
-                    target="_blank">Kaiadmin</a>), jQuery
-        <li>
-            <p>Backend: ASP.NET Core MVC (C#, .NET 8.0)</p>
-        </li>
-        <li>
-            <p>Database: SQL Server</p>
-        </li>
-        <li>
-            <p>Authentication: ASP.NET Core Identity</p>
-        </li>
-        <li>
-            <p>Hosting: Azure / AWS (TBD)</p>
-        </li>
-        <li>
-            <p>Version Control: GitHub</p>
-        </li>
-    </ul>
+                    <h3 class="card-category text-info mb-1">Database</h3>
+                    <ul>
+                        <li>
+                            <p class="card-text">Used Entity Framework Core to work with relational data models,
+                                including many-to-many relationships</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Managed schema changes through EF Core data migrations</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Implemented data searching, filtering, and pagination</p>
+                        </li>
+                    </ul>
+
+                    <h3 class="card-category text-info mb-1">Full Stack Development</h3>
+                    <ul>
+                        <li>
+                            <p class="card-text">Built with the ASP.NET Core MVC framework</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Utilized Razor syntax, tag helpers, and data annotations</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Applied Bootstrap and a template for UI styling</p>
+                        </li>
+                        <li>
+                            <p class="card-text">Added JavaScript for interactive and dynamic front-end behavior</p>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Technology Stack</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <p>
+                                <b>Frontend:</b><br>
+                                HTML, CSS, Bootstrap (Template:
+                                <a href="https://themekita.com/demo-kaiadmin-lite-bootstrap-dashboard/documentation/index.html"
+                                    target="_blank">
+                                    Kaiadmin
+                                </a>), JavaScript
+                        <li>
+                            <p>
+                                <b>Backend:</b><br>
+                                ASP.NET Core MVC (C#, .NET 8.0)
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <b>Database:</b><br>
+                                Relational Database, SQLite (on MacOS)
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <b>Authentication & Authorization:</b><br>
+                                ASP.NET Core Identity
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <b>GitHub Repository:</b><br>
+                                <a href="https://github.com/ikulan/ComIT_eLearning" target="_blank">
+                                    https://github.com/ikulan/ComIT_eLearning
+                                </a>
+                            </p>
+                        </li>
+                    </ul>
+
+                    <h5 class="card-title text-secondary mt-5 mb-2">Special Thanks</h5>
+                    <div class="d-flex align-items-center">
+                        <a href="https://www.comit.org/" target="_blank">
+                            <img src="~/img/comitorg_logo.jpeg" alt="ComIT Logo" style="max-height: 80px;"
+                                class="me-3" /></a>
+                        <div>
+
+                            <p class="card-text">
+                                This project was developed as the final assignment for the <strong><a
+                                        href="https://www.linkedin.com/school/comitorg/posts/?feedView=all"
+                                        target="_blank">ComIT .NET Core
+                                        Course</a></strong>.
+                                <br />
+                                Special thanks to the ComIT team and instructors for their support and guidance.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
