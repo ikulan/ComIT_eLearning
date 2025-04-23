@@ -414,7 +414,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             _context.Courses.AddRange(courses);
             await _context.SaveChangesAsync();
 
-            TempData["Success"] = $"{courses.Count} courses uploaded successfully.";
+            TempData["SuccessMessage"] = $"{courses.Count} courses uploaded successfully.";
             return RedirectToAction("Index");
         }
 

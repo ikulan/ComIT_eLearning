@@ -75,7 +75,7 @@ else
 
         @{
           int firstPage = Math.Max(1, currentPage - 2);
-          int lastPage = Math.Min(totalPages, currentPage + 2);
+          int lastPage = Math.Min(totalPages, firstPage + 5);
         }
         @for (int i = firstPage; i <= lastPage; i++)
         {
