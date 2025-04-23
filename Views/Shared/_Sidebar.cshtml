@@ -33,7 +33,7 @@
 @if (User.IsInRole("Teacher") || User.IsInRole("Student"))
 { 
         <!-- Dashboard  -->
-        <li class="nav-item">
+        <li class="nav-item active">
           <a href="~/Dashboard">
             <i class="fas fa-home"></i>
             <p>Dashboard</p>
@@ -55,13 +55,13 @@
                 </a>
               </li>
               <li>
-                <a href="~/course/01.html">
+                <a>
                   <i class="fas fa-star"></i>
                   Courses 1
                 </a>
               </li>
               <li>
-                <a href="~/course/02.html">
+                <a>
                   <i class="fas fa-star"></i> Courses 2
                 </a>
               </li>
@@ -71,7 +71,7 @@
 
         <!-- Assignments -->
         <li class="nav-item ">
-          <a href="~/Assignment.html">
+          <a href="~/Dashboard/Assignment">
             <i class="fas fa-edit"></i>
             <p>Assignments</p>
           </a>
@@ -79,7 +79,7 @@
 
         <!-- Calendar -->
         <li class="nav-item ">
-          <a href="~/Calendar.html">
+          <a href="~/Dashboard/Calendar">
             <i class="fas fa-calendar-alt"></i>
             <p>Calendar</p>
           </a>

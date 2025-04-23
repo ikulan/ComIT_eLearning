@@ -51,6 +51,18 @@ public class DashboardController : Controller
   }
 
   [WIP]
+  public IActionResult Assignment()
+  {
+    return View();
+  }
+
+  [WIP]
+  public IActionResult Calendar()
+  {
+    return View();
+  }
+
+  [WIP]
   public IActionResult Help()
   {
     return View();
