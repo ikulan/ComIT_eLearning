@@ -20,10 +20,10 @@
 {
     <div class="ms-4 mt-2">
       <div class="row align-items-center">
-        <div class="col-2">
+        <div class="col-3">
           <p class="card-text">Invitation Expiry:</p>
         </div>
-        <div class="col-10">
+        <div class="col-9">
         @if (Model.User.InvitationExpiry.HasValue)
         {
           <p class="card-text">@Model.User.InvitationExpiry.Value.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</p>
@@ -34,10 +34,10 @@
         }
         </div>
       
-        <div class="col-2">
+        <div class="col-3">
           <p class="card-text">Invitation Link:</p>
         </div>
-        <div class="col-10">
+        <div class="col-9">
           @if (ViewBag.RegistrationUrl != null)
           {
             <div class="input-group mb-2 pe-4">
