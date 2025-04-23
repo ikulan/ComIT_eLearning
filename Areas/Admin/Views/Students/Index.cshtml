@@ -11,7 +11,9 @@
         <div>
             <form id="uploadForm" asp-action="UploadCsv" method="post" enctype="multipart/form-data">
                 <input type="file" id="csvFileInput" name="csvFile" accept=".csv" class="d-none" required />
-                <button type="button" class="btn btn-secondary" onclick="triggerFileUpload()">Upload CSV</button>
+                <button type="button" class="btn btn-secondary" onclick="triggerFileUpload()">
+                    Upload CSV
+                </button>
             </form>
         </div>
     </div>
