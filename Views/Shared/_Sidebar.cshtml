@@ -25,6 +25,8 @@
     <div class="sidebar-content">
       <ul class="nav nav-secondary">
 
+@if (User.IsInRole("Teacher") || User.IsInRole("Student"))
+{ 
         <!-- Dashboard  -->
         <li class="nav-item">
           <a href="~/Dashboard">
@@ -32,9 +34,7 @@
             <p>Dashboard</p>
           </a>
         </li>
-
-@if (User.IsInRole("Teacher") || User.IsInRole("Student"))
-{        
+       
         <!-- Courses -->
         <li class="nav-item ">
           <a data-bs-toggle="collapse" href="#sidebarCourses">
