@@ -94,10 +94,15 @@ namespace ComIT_eLearning.Areas.Identity.Pages.Account
 
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Index", "Dashboard", new { area = "" });
+                if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Courses", new { area = "Admin" });
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Dashboard", new { area = "" });
+                }
             }
-
-            returnUrl ??= Url.Action("Index", "Dashboard", new { area = "" });
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -111,7 +116,6 @@ namespace ComIT_eLearning.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Action("Index", "Dashboard", new { area = "" });
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -123,6 +127,14 @@ namespace ComIT_eLearning.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    if (User.IsInRole("Admin"))
+                    {
+                        returnUrl ??= Url.Action("Index", "Courses", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        returnUrl ??= Url.Action("Index", "Dashboard", new { area = "" });
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

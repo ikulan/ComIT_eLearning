@@ -87,7 +87,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
       var user = await _userManager.FindByIdAsync(userId);
       var profile = await _context.TeacherProfiles
         .Include(p => p.User)
-        .Include(p => p.EnrolledCourses)
+        .Include(p => p.EnrolledCourses)  // TODO: add pagination for courses
         .FirstOrDefaultAsync(p => p.UserId == userId);
 
       if (user == null || profile == null)

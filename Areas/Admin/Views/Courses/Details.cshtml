@@ -1,78 +1,177 @@
+@using ComIT_eLearning.Models.Enums
 @model ComIT_eLearning.Models.Course
 
 @{
-    ViewData["Title"] = "Details";
+  ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Course</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
+<div class="container">
+  <div class="d-flex justify-content-between align-items-end">
+    <h2>@Model.Number - @Model.Name</h2>
+    <p class="mb-0"><a asp-action="Index">Back to List</a></p>
+  </div>
+  <hr />
+
+  <!-- #region Basic Info Card-->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Basic Info</h3>
+        <div class="card-tools">
+          <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Edit</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <dl class="row align-items-center">
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Status)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+        <dd class="col-sm-10">
+          <div class="d-flex gap-3 align-items-center">
+            <p class="card-text">@Html.DisplayFor(model => model.Status)</p>
+            <form asp-action="ChangeStatus" method="post">
+              <div class="d-flex align-items-center">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="form-group" style="width: 180px;">
+                  @Html.DropDownListFor(
+                  m => m.Status,
+                                    Html.GetEnumSelectList<CourseStatus>(),
+                                    new { @class = "form-control form-select" }
+                                    )
+                  <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div>
+                  <button type="submit" class="btn btn-border btn-secondary">
+                    Update Status
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+
+        <!-- Teachers -->
+        <dt class="col-sm-2">
+          <p class="card-text">Teachers</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+        <dd class="col-sm-10">
+          <ul class="mb-0 list-unstyled">
+            @foreach (var teacher in Model.Teachers)
+            {
+              <li>
+                <p class="card-text">
+                  <a asp-action="Details" asp-controller="Teachers" asp-route-userId="@teacher.UserId">
+                    @teacher.User.GetFullName() (@teacher.Department)
+                  </a>
+                </p>
+              </li>
+            }
+          </ul>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
+
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Name)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Number)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Name)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Number)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Number)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Department)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Department)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Semester)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Year)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Semester)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Year)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Semester)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Semester)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.Description)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.StartDate)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.StartDate)</p>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageUrl)
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.EndDate)</p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageUrl)
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.EndDate)</p>
         </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        <dt class="col-sm-2">
+          <p class="card-text">@Html.DisplayNameFor(model => model.ImageUrl)</p>
+        </dt>
+        <dd class="col-sm-10">
+          <p class="card-text">@Html.DisplayFor(model => model.ImageUrl)</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <!-- end of Basic Info Card-->
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+        <h3 class="card-title">Students</h3>
+        <div class="card-tools">
+          <a class="btn btn-secondary">Add</a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Student Number</th>
+            <th>Department</th>
+            <th>Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @{
+            var index = 0;
+          }
+          @foreach (var student in Model.Students)
+          {
+            <tr>
+              <th scope="row">@(++index)</th>
+              <td>@student.StudentNumber</td>
+              <td>@student.Department</td>
+              <td>@student.User.GetFullName()</td>
+              <td>
+                <button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-bs-toggle="modal"
+                  data-bs-target="#remove-course-confirm">
+                  Remove
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>

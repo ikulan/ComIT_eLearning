@@ -1,5 +1,10 @@
 @model ComIT_eLearning.Areas.Admin.Models.CourseListViewModel
 
+@{
+  int totalPages = (int)Math.Ceiling((double)Model.TotalCount / Model.PageSize);
+  int currentPage = Model.Page;
+}
+
 @if (Model.CourseList == null || !Model.CourseList.Any())
 {
   <div class="text-success text-center">
@@ -11,13 +16,12 @@ else
   <table class="table">
     <thead>
       <tr>
-        @if (Model.showStatus)
+        @if (Model.ShowStatus)
         {
           <th>Status</th>
         }
         <th>Number</th>
         <th>Course Name</th>
-        <th>Year</th>
         <th>Semester</th>
         <th></th>
       </tr>
@@ -26,7 +30,7 @@ else
       @foreach (var course in Model.CourseList)
       {
         <tr>
-          @if (Model.showStatus)
+          @if (Model.ShowStatus)
           {
             <td>
               @Html.DisplayFor(model => course.Status)
@@ -34,16 +38,15 @@ else
           }
           <td>@course.Number</td>
           <td>@course.Name</td>
-          <td>@course.Year</td>
-          <td>@course.Semester</td>
+          <td>@course.Year @course.Semester</td>
           <td>
-            @if (Model.showAddButton)
+            @if (Model.ShowAddButton)
             {
               <button class="btn btn-secondary btn-sm add-course-btn" data-course-id="@course.Id">
                 Add
               </button>
             }
-            @if (Model.showRemoveButton)
+            @if (Model.ShowRemoveButton)
             {
               <button class="btn btn-secondary btn-sm btn-border remove-course-btn" data-bs-toggle="modal"
                 data-bs-target="#remove-course-confirm" data-course-id="@course.Id" data-course-name="@course.Name"
@@ -56,4 +59,57 @@ else
       }
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  @if (totalPages > 1)
+  {
+    <nav aria-label="Page navigation">
+      <ul class="pagination pg-secondary justify-content-center">
+        <!-- prev button -->
+        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+          <a class="page-link" href="javascript:void(0)" onclick="loadCourses(@(currentPage - 1))" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+
+        @{
+          int firstPage = Math.Max(1, currentPage - 2);
+          int lastPage = Math.Min(totalPages, firstPage + 5);
+        }
+        @for (int i = firstPage; i <= lastPage; i++)
+        {
+          <li class="page-item @(i == currentPage ? "active" : "")">
+            <a class="page-link" href="javascript:void(0)" onclick="loadCourses(@i)">
+              @i
+            </a>
+          </li>
+        }
+
+        <!-- next button -->
+        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+          <a class="page-link" href="javascript:void(0)" onclick="loadCourses(@(currentPage + 1))" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  }
+  <!-- End of Pagination-->
 }
+
+<script>
+  function loadCourses(p = 1) {
+    const search = document.getElementById('searchInput')?.value || "";
+
+    fetch(`/Admin/Courses/ListPartial?searchString=${encodeURIComponent(search)}&p=${p}`)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById("coursesList").innerHTML = html;
+      })
+      .catch(error => {
+        document.getElementById("coursesList").innerHTML = '<div class="text-danger">Failed to load courses.</div>';
+      });
+  }
+</script>

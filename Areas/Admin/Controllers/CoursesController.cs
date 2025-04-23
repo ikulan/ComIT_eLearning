@@ -24,10 +24,45 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? p, string? searchString, CourseStatus? status)
         {
-            return View(await _context.Courses.ToListAsync());
+            int page = p ?? 1;
+            int pageSize = 10;
+
+            var query = _context.Courses.AsQueryable();
+
+            if (status.HasValue)
+            {
+                query = query.Where(c => c.Status == status.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                var lowerSearch = searchString.ToLower();
+                query = query.Where(c =>
+                    c.Name.ToLower().Contains(lowerSearch) ||
+                    c.Number.ToLower() == lowerSearch);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var pagedCourses = await query
+                .OrderByDescending(c => c.StartDate)
+                .ThenBy(c => c.Number)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View("Index", new CourseIndexViewModel
+            {
+                CourseList = pagedCourses,
+                EmptyMessage = "No courses found matching your search.",
+                SearchValue = searchString,
+                SelectedStatus = status,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            });
         }
 
         // GET: Courses/Details/5
@@ -39,7 +74,11 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             }
 
             var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(c => c.Teachers)
+                .ThenInclude(teacher => teacher.User)
+                .Include(c => c.Students)
+                .ThenInclude(student => student.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
             if (course == null)
             {
                 return NotFound();
@@ -172,9 +211,14 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> ListPartial(string? searchString, int page = 1, int pageSize = 10)
+        // The endpoint for listing course results in addCourseModal
+        public async Task<IActionResult> ListPartial(string? searchString, int? p = 1)
         {
-            var query = _context.Courses.Where(c => c.Status == CourseStatus.Active);
+            int page = p.GetValueOrDefault();
+            int pageSize = 5;
+            var validStatus = new[] { CourseStatus.Active, CourseStatus.Pending };
+
+            var query = _context.Courses.Where(c => validStatus.Contains(c.Status));
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
@@ -184,7 +228,7 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
                     c.Number.ToLower() == lowerSearch);
             }
 
-            var totalCount = await query.CountAsync(); // Optional: For showing total pages
+            var totalCount = await query.CountAsync();
 
             var pagedCourses = await query
                 .OrderByDescending(c => c.StartDate)
@@ -193,13 +237,14 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-
             return PartialView("_CourseListPartial", new CourseListViewModel
             {
                 CourseList = pagedCourses,
                 EmptyMessage = "No courses found matching your search.",
-                showStatus = false,
-                showAddButton = true
+                ShowAddButton = true,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
             });
         }
 
@@ -308,6 +353,71 @@ namespace ComIT_eLearning.Areas.Admin.Controllers
 
             return LocalRedirect(returnUrl);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int? id, CourseStatus status)
+        {
+            if (id == null)
+            {
+                return BadRequest("Course ID is required.");
+            }
+
+            var course = await _context.Courses.FindAsync(id.Value);
+
+            if (course == null)
+            {
+                return NotFound("Course not found.");
+            }
+
+            course.Status = status;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Details", new { id = course.Id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadCourses(IFormFile csvFile)
+        {
+            if (csvFile == null || csvFile.Length == 0)
+            {
+                TempData["Error"] = "No file selected.";
+                return RedirectToAction("Upload");
+            }
+
+            // TODO: Validate csv file contents and dynamic fields mapping
+            using var reader = new StreamReader(csvFile.OpenReadStream());
+            var courses = new List<Course>();
+
+            // Skip header
+            string? line = await reader.ReadLineAsync();
+
+            while ((line = await reader.ReadLineAsync()) != null)
+            {
+                var fields = line.Split(',');
+
+                if (fields.Length != 8) continue; // Validate correct field count
+
+                courses.Add(new Course
+                {
+                    Name = fields[0].Trim(),
+                    Number = fields[1].Trim(),
+                    Department = fields[2].Trim(),
+                    Year = int.Parse(fields[3]),
+                    Semester = (SemesterType)Enum.Parse(typeof(SemesterType), fields[4].Trim()),
+                    Description = fields[5].Trim(),
+                    StartDate = DateTime.Parse(fields[6]),
+                    EndDate = DateTime.Parse(fields[7]),
+                    Status = CourseStatus.Pending
+                });
+            }
+
+            _context.Courses.AddRange(courses);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = $"{courses.Count} courses uploaded successfully.";
+            return RedirectToAction("Index");
+        }
+
 
         private bool CourseExists(int id)
         {
