@@ -1,3 +1,8 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+}
+
 <div class="sidebar" data-background-color="white">
 
   <!-- Logo -->
@@ -83,6 +88,10 @@
 
 @if (User.IsInRole("Admin"))
 {
+  var isAdminCoursesPage = currentController == "Courses" && currentArea == "Admin";
+  var isAdminTeachersPage = currentController == "Teachers" && currentArea == "Admin";
+  var isAdminStudentsPage = currentController == "Students" && currentArea == "Admin";
+  
         <!-- Management (only for admin roles)  -->
           <li class="nav-section">
             <span class="sidebar-mini-icon">
@@ -90,19 +99,19 @@
             </span>
             <h4 class="text-section">Management</h4>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item @(isAdminCoursesPage ? "active" : "")">
             <a href="~/Admin/Courses">
               <i class="fas fa-book"></i>
               <p>Courses</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item @(isAdminTeachersPage ? "active" : "")">
             <a href="~/Admin/Teachers">
               <i class="fas fa-user-tie"></i>
               <p>Teachers</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item @(isAdminStudentsPage ? "active" : "")">
             <a href="~/Admin/Students">
               <i class="fas fa-graduation-cap"></i>
               <p>Students</p>
