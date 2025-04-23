@@ -1,7 +1,26 @@
+@model IEnumerable<Course>
+
 @{
   ViewData["Title"] = "Dashboard";
 }
 
 <div class="container">
   <h2>@ViewData["Title"]</h2>
+
+  @foreach (var course in Model)
+  {
+    <div class="col-4">
+      <div class="card" style="cursor: pointer;">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <p class="card-category text-dark-subtle">@course.Number</p>
+            <p class="card-category text-dark-subtle">@course.Year @course.Semester</p>
+          </div>
+          <p class="card-text text-info mb-0">@course.Department</p>
+          <h3 class="card-title mb-3">@course.Name</h3>
+        </div>
+      </div>
+    </div>
+
+  }
 </div>
