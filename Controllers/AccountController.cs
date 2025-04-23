@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using ComIT_eLearning.Models;
 using ComIT_eLearning.Attributes;
+using ComIT_eLearning.Data;
 
 namespace ComIT_eLearning.Controllers
 {
@@ -14,16 +16,19 @@ namespace ComIT_eLearning.Controllers
     private readonly IUserStore<ApplicationUser> _userStore;    // for the user database
     //private readonly IUserEmailStore<ApplicationUser> _emailStore;
     private readonly ILogger<AccountController> _logger;
+    private readonly ApplicationDbContext _context;
 
     public AccountController(
       SignInManager<ApplicationUser> signInManager,
       UserManager<ApplicationUser> userManager,
       IUserStore<ApplicationUser> userStore,
+      ApplicationDbContext context,
       ILogger<AccountController> logger)
     {
       _signInManager = signInManager;
       _userManager = userManager;
       _userStore = userStore;
+      _context = context;
       _logger = logger;
     }
 
@@ -40,10 +45,37 @@ namespace ComIT_eLearning.Controllers
       return View(viewModel);
     }
 
-    [WIP]
     public async Task<IActionResult> Profile()
     {
-      return View();
+      var user = await _userManager.GetUserAsync(User);
+      if (user == null)
+      {
+        return NotFound("User not found.");
+      }
+
+      ApplicationUser currentUser = await _userManager.GetUserAsync(User);
+
+
+      StudentProfile? studentProfile = null;
+      TeacherProfile? teacherProfile = null;
+      if (User.IsInRole("Student"))
+      {
+        studentProfile = await _context.StudentProfiles
+            .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+      }
+      if (User.IsInRole("Teacher"))
+      {
+        teacherProfile = await _context.TeacherProfiles
+            .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+
+      }
+
+      return View(new ProfileViewModel
+      {
+        User = currentUser,
+        studentProfile = studentProfile,
+        teacherProfile = teacherProfile
+      });
     }
 
     [AllowAnonymous]
