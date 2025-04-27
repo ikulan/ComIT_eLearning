@@ -14,8 +14,7 @@ The goal of this project is to develop a web-based E-Learning system that enable
 - **Authentication & Authorization**: ASP.NET Core Identity
 - **Hosting**: Azure
 
-> [!NOTE]
-> **Special Thanks**
+> [!NOTE] > **Special Thanks**
 > This project was developed as the final assignment for the [ComIT .NET Core Course](https://certificates.comit.org/a0768a2c-60a4-4263-95c3-6b9b868c5503#acc.7390mPbp).
 > Special thanks to the ComIT team and instructors for their support and guidance.
 
@@ -28,13 +27,13 @@ The goal of this project is to develop a web-based E-Learning system that enable
 - Role-based access control for teachers, students, and administrators
 - Features include login, logout, invitation link regeneration, and password change
 
-![Account Settings Page](User_Account_Settings.png)
+![Account Settings Page](Docs/screenshots/User_Account_Settings.png)
 Account Settings Page
 
-![Admin - User Account Management](Admin_User_Account_Management.png)
+![Admin - User Account Management](Docs/screenshots/Admin_User_Account_Management.png)
 Admin - User Account Management
 
-![Invitation-based Registration](Invitation-based_Registration.png)
+![Invitation-based Registration](Docs/screenshots/Invitation-based_Registration.png)
 Invitation-based Registration
 
 **Database**
@@ -43,10 +42,10 @@ Invitation-based Registration
 - Managed schema changes through EF Core data migrations
 - Implemented data searching, filtering, and pagination
 
-![Admin - Course Management](Admin_Course_Management.png)
+![Admin - Course Management](Docs/screenshots/Admin_Course_Management.png)
 Admin - Course Management
 
-![Admin - Enroll Course Modal](Admin_Enroll_Course_Modal.png)
+![Admin - Enroll Course Modal](Docs/screenshots/Admin_Enroll_Course_Modal.png)
 Admin - Enroll Course Modal
 
 **Full Stack Development**
